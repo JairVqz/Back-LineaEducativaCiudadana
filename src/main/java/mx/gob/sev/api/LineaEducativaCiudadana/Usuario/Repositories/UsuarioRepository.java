@@ -1,5 +1,9 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Repositories;
 
-public class UsuarioRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
 }

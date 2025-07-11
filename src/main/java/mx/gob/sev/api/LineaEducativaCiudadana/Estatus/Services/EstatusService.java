@@ -7,5 +7,6 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Estatus.Models.Estatus;
 public interface EstatusService {
     
     List<Estatus> findAll();
+    Estatus save(Estatus estatus);
     
 }

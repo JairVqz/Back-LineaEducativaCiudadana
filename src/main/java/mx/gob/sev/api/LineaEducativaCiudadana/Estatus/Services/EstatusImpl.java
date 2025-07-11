@@ -19,4 +19,9 @@ public class EstatusImpl implements EstatusService{
         return (List<Estatus>) estatusRepository.findAll();
     }
 
+    @Override
+    public Estatus save(Estatus estatus){
+        return this.estatusRepository.save(estatus);
+    }
+
 }
