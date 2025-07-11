@@ -54,6 +54,9 @@ public class SolicitudGeneral {
     @JoinColumn(name = "idDirectorio")
     private Directorio directorio;
 
+    @Column(name = "responsable")
+    private String responsable;
+
     @ManyToOne
     @JoinColumn(name = "idUbicacion")
     private Ubicacion ubicacion;
