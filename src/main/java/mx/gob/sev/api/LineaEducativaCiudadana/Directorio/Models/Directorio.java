@@ -1,21 +1,19 @@
-package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models;
+package mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoAreaTramite;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Estructura;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_relacionAcceso")
-public class RelacionAcceso {
+@Table(name = "tbl_directorio")
+public class Directorio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAcceso;
+    private Long idDirectorio;
 
     @ManyToOne
     @JoinColumn(name = "idEstructura")
@@ -24,6 +22,10 @@ public class RelacionAcceso {
     @ManyToOne
     @JoinColumn(name = "idAreaTramite")
     private CatalogoAreaTramite areaTramite;
+
+    @ManyToOne
+    @JoinColumn(name = "idExtension")
+    private CatalogoExtension extension;
 
     @Column(name = "activo")
     private int activo;

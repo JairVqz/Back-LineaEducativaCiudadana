@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import lombok.*;
+import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 @Getter
 @Setter
@@ -26,8 +27,9 @@ public class Bitacora {
     @Column(name = "accion")
     private String accion;
 
-    @Column(name = "idUsuario")
-    private int idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
 
     @Column(name = "fecha")
     private LocalDateTime fecha;

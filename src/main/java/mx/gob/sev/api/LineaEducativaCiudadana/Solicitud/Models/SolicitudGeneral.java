@@ -5,11 +5,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Directorio;
+import mx.gob.sev.api.LineaEducativaCiudadana.Estatus.Models.Estatus;
+import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 @Getter
 @Setter
@@ -35,8 +40,9 @@ public class SolicitudGeneral {
     @Column(name = "apellidoMaterno")
     private String apellidoMaterno;
 
-    @Column(name = "idEstatus")
-    private int idEstatus;
+    @ManyToOne
+    @JoinColumn(name = "idEstatus")
+    private Estatus estatus;
 
     @Column(name = "descripcion")
     private String descripcion;
@@ -44,20 +50,25 @@ public class SolicitudGeneral {
     @Column(name = "diasTranscurridos")
     private String diasTranscurridos;
 
-    @Column(name = "idDirectorio")
-    private int idDirectorio;
+    @ManyToOne
+    @JoinColumn(name = "idDirectorio")
+    private Directorio directorio;
 
-    @Column(name = "idUbicacion")
-    private int idUbicacion;
+    @ManyToOne
+    @JoinColumn(name = "idUbicacion")
+    private Ubicacion ubicacion;
 
-    @Column(name = "idContacto")
-    private int idContacto;
+    @ManyToOne
+    @JoinColumn(name = "idContacto")
+    private Contacto contacto;
 
-    @Column(name = "idLlamada")
-    private int idLlamada;
+    @ManyToOne
+    @JoinColumn(name = "idLlamada")
+    private Llamada llamada;
 
-    @Column(name = "idUsuario")
-    private int idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
 
     @Column(name = "activo")
     private int activo;
