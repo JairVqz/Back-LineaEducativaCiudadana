@@ -1,7 +1,15 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -36,8 +44,8 @@ public class SolicitudGeneral {
     @Column(name = "diasTranscurridos")
     private String diasTranscurridos;
 
-    @Column(name = "idExtensionSolicitud")
-    private int idExtensionSolicitud;
+    @Column(name = "idDirectorio")
+    private int idDirectorio;
 
     @Column(name = "idUbicacion")
     private int idUbicacion;
@@ -47,6 +55,9 @@ public class SolicitudGeneral {
 
     @Column(name = "idLlamada")
     private int idLlamada;
+
+    @Column(name = "idUsuario")
+    private int idUsuario;
 
     @Column(name = "activo")
     private int activo;

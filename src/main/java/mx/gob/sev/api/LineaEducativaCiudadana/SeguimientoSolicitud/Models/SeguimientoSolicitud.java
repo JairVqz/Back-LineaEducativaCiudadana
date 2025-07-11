@@ -1,7 +1,15 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.SeguimientoSolicitud.Models;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -21,14 +29,11 @@ public class SeguimientoSolicitud {
     @Column(name = "comentario")
     private String comentario;
 
-    @Column(name = "nombre_usuario")
-    private String nombreUsuario;
+    @Column(name = "idUsuario")
+    private Long idUsuario;
 
-    @Column(name = "curpUsuario")
-    private String curpUsuario;
-
-    @Column(name = "idRelacionDirectorio") 
-    private Long idRelacionDirectorio;
+    @Column(name = "idDirectorio") 
+    private Long idDirectorio;
 
     @Column(name = "activo")
     private int activo;

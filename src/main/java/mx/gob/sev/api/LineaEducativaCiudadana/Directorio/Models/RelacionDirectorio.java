@@ -1,6 +1,11 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter
@@ -8,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_relacionDirectorio")
+@Table(name = "tbl_directorio")
 public class RelacionDirectorio {
 
     @Id
