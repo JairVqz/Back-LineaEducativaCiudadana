@@ -24,6 +24,12 @@ public class SolicitudGeneralController {
         return this.solicitudGeneralImpl.findAll();
     }
 
+    @GetMapping("/findAllActive")
+    @Transactional(readOnly = true)
+    public List<SolicitudGeneral> findAllActive(){
+        return this.solicitudGeneralImpl.findAllActive();
+    }
+
     @PostMapping
     @Transactional
     public SolicitudGeneral save(@RequestBody SolicitudGeneral solicitudGeneral){

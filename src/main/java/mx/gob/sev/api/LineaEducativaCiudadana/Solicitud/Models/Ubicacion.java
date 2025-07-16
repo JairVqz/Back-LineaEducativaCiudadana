@@ -24,7 +24,7 @@ public class Ubicacion {
     private Long idUbicacion;
 
     @Column(name = "cct")
-    private int nivelCct;
+    private String cct;
 
     @Column(name = "nombrePlantel", columnDefinition = "TEXT")
     private String nombrePlantel;

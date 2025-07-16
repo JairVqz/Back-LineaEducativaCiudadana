@@ -20,6 +20,11 @@ public class SolicitudGeneralImpl implements SolicituGeneralService{
     }
 
     @Override
+    public List<SolicitudGeneral> findAllActive(){
+        return (List<SolicitudGeneral>) this.solicitudGeneralRepository.findAllActive();
+    }
+
+    @Override
     public SolicitudGeneral save(SolicitudGeneral solicitudGeneral){
         return this.solicitudGeneralRepository.save(solicitudGeneral);
     }
