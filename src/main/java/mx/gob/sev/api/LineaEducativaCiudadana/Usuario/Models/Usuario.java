@@ -2,6 +2,7 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Estructura;
 
 @Getter
 @Setter
@@ -27,8 +28,9 @@ public class Usuario {
     @Column(name = "rol")
     private String rol;
 
-    @Column(name = "idRelacionUsuarioArea")
-    private Long idRelacionUsuarioArea;
+    @ManyToOne
+    @JoinColumn(name = "idAcceso")
+    private RelacionAcceso relacionAcceso;
 
     @Column(name = "activo")
     private int activo;
