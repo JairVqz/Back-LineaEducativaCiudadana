@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "tbl_estructuraSev")
-public class Estructura {
+public class EstructuraSev {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

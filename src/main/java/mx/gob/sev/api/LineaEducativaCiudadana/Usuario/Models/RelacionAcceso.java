@@ -3,7 +3,7 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models;
 import jakarta.persistence.*;
 import lombok.*;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoAreaTramite;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Estructura;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.EstructuraSev;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class RelacionAcceso {
 
     @ManyToOne
     @JoinColumn(name = "idEstructura")
-    private Estructura estructura;
+    private EstructuraSev estructuraSev;
 
     @ManyToOne
     @JoinColumn(name = "idAreaTramite")

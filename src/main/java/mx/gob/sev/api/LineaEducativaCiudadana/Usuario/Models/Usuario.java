@@ -2,7 +2,6 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Estructura;
 
 @Getter
 @Setter

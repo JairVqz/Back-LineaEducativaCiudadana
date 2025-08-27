@@ -17,7 +17,7 @@ public class Directorio {
 
     @ManyToOne
     @JoinColumn(name = "idEstructura")
-    private Estructura estructura;
+    private EstructuraSev estructurasev;
 
     @ManyToOne
     @JoinColumn(name = "idAreaTramite")
