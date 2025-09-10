@@ -51,6 +51,7 @@ public class EstructuraSevImpl implements EstructuraSevService {
             estructuraExistente.setNombre(estructuraSev.getNombre());
             estructuraExistente.setNivel(estructuraSev.getNivel());
             estructuraExistente.setIdInterno(estructuraSev.getIdInterno());
+            estructuraExistente.setOficial(estructuraSev.getOficial());
             estructuraExistente.setActivo(estructuraExistente.getActivo());
 
             return this.estructuraSevRepository.save(estructuraExistente);

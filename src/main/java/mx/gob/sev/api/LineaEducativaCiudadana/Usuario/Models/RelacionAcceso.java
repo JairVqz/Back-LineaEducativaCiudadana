@@ -2,7 +2,7 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoAreaTramite;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoTramite;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.EstructuraSev;
 
 @Getter
@@ -23,7 +23,7 @@ public class RelacionAcceso {
 
     @ManyToOne
     @JoinColumn(name = "idAreaTramite")
-    private CatalogoAreaTramite areaTramite;
+    private CatalogoTramite areaTramite;
 
     @Column(name = "activo")
     private int activo;

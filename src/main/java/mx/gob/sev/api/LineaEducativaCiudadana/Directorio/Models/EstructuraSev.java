@@ -24,6 +24,9 @@ public class EstructuraSev {
     @Column(name = "idInterno")
     private Long idInterno;
 
+    @Column(name = "oficial")
+    private int oficial;
+
     @Column(name = "activo")
     private int activo;
 

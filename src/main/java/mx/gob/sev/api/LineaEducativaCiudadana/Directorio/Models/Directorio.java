@@ -21,7 +21,7 @@ public class Directorio {
 
     @ManyToOne
     @JoinColumn(name = "idAreaTramite")
-    private CatalogoAreaTramite areaTramite;
+    private CatalogoTramite areaTramite;
 
     @ManyToOne
     @JoinColumn(name = "idExtension")

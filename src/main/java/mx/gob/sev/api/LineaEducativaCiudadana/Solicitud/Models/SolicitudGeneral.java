@@ -40,10 +40,6 @@ public class SolicitudGeneral {
     @Column(name = "apellidoMaterno")
     private String apellidoMaterno;
 
-    @ManyToOne
-    @JoinColumn(name = "idEstatus")
-    private Estatus estatus;
-
     @Column(name = "descripcion")
     private String descripcion;
 
@@ -58,8 +54,8 @@ public class SolicitudGeneral {
     private String responsable;
 
     @ManyToOne
-    @JoinColumn(name = "idUbicacion")
-    private Ubicacion ubicacion;
+    @JoinColumn(name = "idEstatus")
+    private Estatus estatus;
 
     @ManyToOne
     @JoinColumn(name = "idContacto")
@@ -68,6 +64,10 @@ public class SolicitudGeneral {
     @ManyToOne
     @JoinColumn(name = "idLlamada")
     private Llamada llamada;
+
+    @ManyToOne
+    @JoinColumn(name = "idUbicacion")
+    private Ubicacion ubicacion;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
