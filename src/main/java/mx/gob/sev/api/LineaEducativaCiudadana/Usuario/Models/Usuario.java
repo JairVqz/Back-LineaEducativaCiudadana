@@ -3,8 +3,8 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -24,8 +24,9 @@ public class Usuario {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "rol")
-    private String rol;
+    @ManyToOne
+    @JoinColumn(name = "idRol")
+    private Rol rol;
 
     @ManyToOne
     @JoinColumn(name = "idAcceso")
