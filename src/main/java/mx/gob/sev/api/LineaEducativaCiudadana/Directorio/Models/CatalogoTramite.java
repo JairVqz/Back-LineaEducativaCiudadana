@@ -16,12 +16,12 @@ public class CatalogoTramite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTramite;
 
-    @Column(name = "nombre")
-    private String nombre;
+    @Column(name = "tramite")
+    private String tramite;
 
     @ManyToOne
     @JoinColumn(name = "idEstructura")
-    private EstructuraSev estructurasev;
+    private CatalogoArea catalogoArea;
 
     @Column(name = "publico")
     private int publico;

@@ -16,42 +16,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.EntityNotFoundException;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.EstructuraSev;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Services.Estructura.EstructuraSevImpl;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoArea;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Services.Estructura.CatalogoAreaImpl;
 
 @RestController
 @RequestMapping("api/Estructura")
 @CrossOrigin("*")
 
-public class EstructuraSevController {
+public class CatalogoAreaController {
 
     @Autowired
-    private EstructuraSevImpl estructuraSevImpl;
+    private CatalogoAreaImpl catalogoAreaImpl;
 
     @GetMapping("/findAll")
     @Transactional(readOnly = true)
-    public List<EstructuraSev> findAll() {
-        return this.estructuraSevImpl.findAll();
+    public List<CatalogoArea> findAll() {
+        return this.catalogoAreaImpl.findAll();
     }
 
     @GetMapping("/findAllActive")
     @Transactional(readOnly = true)
-    public List<EstructuraSev> findAllActive() {
-        return this.estructuraSevImpl.findAllActive();
+    public List<CatalogoArea> findAllActive() {
+        return this.catalogoAreaImpl.findAllActive();
     }
 
     @GetMapping("/findAllInactive")
     @Transactional(readOnly = true)
-    public List<EstructuraSev> findAllInactive() {
-        return this.estructuraSevImpl.findAllInactive();
+    public List<CatalogoArea> findAllInactive() {
+        return this.catalogoAreaImpl.findAllInactive();
     }
 
     @GetMapping("/findById")
     @Transactional(readOnly = true)
-    public ResponseEntity<?> findById(@RequestParam Long idEstructura) {
+    public ResponseEntity<?> findById(@RequestParam Long idArea) {
         try {
-            EstructuraSev estructuraSev = this.estructuraSevImpl.findById(idEstructura);
-            return ResponseEntity.ok(estructuraSev);
+            CatalogoArea catalogoArea = this.catalogoAreaImpl.findById(idArea);
+            return ResponseEntity.ok(catalogoArea);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -59,15 +59,15 @@ public class EstructuraSevController {
 
     @PostMapping
     @Transactional
-    public EstructuraSev save(@RequestBody EstructuraSev estructuraSev) {
-        return this.estructuraSevImpl.save(estructuraSev);
+    public CatalogoArea save(@RequestBody CatalogoArea catalogoArea) {
+        return this.catalogoAreaImpl.save(catalogoArea);
     }
 
     @PutMapping()
     @Transactional
-    public ResponseEntity<EstructuraSev> update(@RequestBody EstructuraSev estructuraSev) {
+    public ResponseEntity<CatalogoArea> update(@RequestBody CatalogoArea catalogoArea) {
         try {
-            EstructuraSev actualizado = estructuraSevImpl.update(estructuraSev);
+            CatalogoArea actualizado = catalogoAreaImpl.update(catalogoArea);
             return ResponseEntity.ok(actualizado);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

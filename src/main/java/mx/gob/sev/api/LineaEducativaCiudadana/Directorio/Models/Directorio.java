@@ -16,12 +16,12 @@ public class Directorio {
     private Long idDirectorio;
 
     @ManyToOne
-    @JoinColumn(name = "idEstructura")
-    private EstructuraSev estructurasev;
+    @JoinColumn(name = "idArea")
+    private CatalogoArea catalogoArea;
 
     @ManyToOne
-    @JoinColumn(name = "idAreaTramite")
-    private CatalogoTramite areaTramite;
+    @JoinColumn(name = "idTramite")
+    private CatalogoTramite catalogoTramite;
 
     @ManyToOne
     @JoinColumn(name = "idExtension")

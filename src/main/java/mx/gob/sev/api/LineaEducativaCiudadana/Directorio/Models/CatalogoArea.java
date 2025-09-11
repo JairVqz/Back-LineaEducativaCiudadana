@@ -8,12 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_estructuraSev")
-public class EstructuraSev {
+@Table(name = "tbl_catalogoAreas")
+public class CatalogoArea {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEstructura;
+    private Long idArea;
 
     @Column(name = "nombre")
     private String nombre;
@@ -26,6 +26,9 @@ public class EstructuraSev {
 
     @Column(name = "oficial")
     private int oficial;
+
+    @Column(name = "externa")
+    private int externa;
 
     @Column(name = "activo")
     private int activo;
