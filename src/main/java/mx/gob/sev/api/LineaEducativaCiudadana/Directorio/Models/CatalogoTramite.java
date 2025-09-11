@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tbl_catalogoTramite")
+@Table(name = "tbl_catalogoTramites")
 public class CatalogoTramite {
 
     @Id
