@@ -20,7 +20,7 @@ public class CatalogoTramite {
     private String tramite;
 
     @ManyToOne
-    @JoinColumn(name = "idEstructura")
+    @JoinColumn(name = "idArea")
     private CatalogoArea catalogoArea;
 
     @Column(name = "publico")
