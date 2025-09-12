@@ -17,6 +17,9 @@ public class Llamada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLlamada;
 
+    @Column(name = "fecha")
+    private LocalDateTime fecha;
+
     @Column(name = "horaInicio")
     private LocalDateTime horaInicio;
 

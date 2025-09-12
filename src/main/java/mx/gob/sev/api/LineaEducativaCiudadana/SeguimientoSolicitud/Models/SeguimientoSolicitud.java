@@ -1,5 +1,7 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.SeguimientoSolicitud.Models;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +33,9 @@ public class SeguimientoSolicitud {
 
     @Column(name = "comentario")
     private String comentario;
+
+    @Column(name = "fecha")
+    private LocalDateTime fecha;
 
     @Column(name = "idUsuario")
     private Long idUsuario;
