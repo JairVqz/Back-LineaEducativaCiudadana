@@ -25,7 +25,7 @@ public class Directorio {
 
     @ManyToOne
     @JoinColumn(name = "idExtension")
-    private CatalogoExtension extension;
+    private CatalogoExtension catalogoExtension;
 
     @Column(name = "activo")
     private int activo;
