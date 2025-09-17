@@ -20,7 +20,7 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoArea;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Services.Estructura.CatalogoAreaImpl;
 
 @RestController
-@RequestMapping("api/Estructura")
+@RequestMapping("api/Catalogo/Area")
 @CrossOrigin("*")
 
 public class CatalogoAreaController {
