@@ -32,8 +32,8 @@ public class Ubicacion {
     @Column(name = "nivelEducativo")
     private String nivelEducativo;
 
-    @Column(name = "nombreDirector")
-    private String nombreDirector;
+    @Column(name = "sostenimiento")
+    private String sostenimiento;
 
     @Column(name = "municipio")
     private String municipio;
@@ -41,8 +41,8 @@ public class Ubicacion {
     @Column(name = "localidad")
     private String localidad;
 
-    @Column(name = "direccionCct", columnDefinition = "TEXT")
-    private String direccionCct;
+    @Column(name = "tipoEducacion")
+    private String tipoEducacion;
 
     @Column(name = "activo")
     private int activo;
