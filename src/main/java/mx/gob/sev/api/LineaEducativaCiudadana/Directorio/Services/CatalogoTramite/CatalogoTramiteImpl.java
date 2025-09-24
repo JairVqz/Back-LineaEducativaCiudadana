@@ -37,6 +37,11 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService{
     }
 
     @Override
+    public List<CatalogoTramite> findTramiteByArea(Long idArea) {
+        return (List<CatalogoTramite>) this.catalogoTramiteRepository.findTramiteByArea(idArea);
+    }
+
+    @Override
     public CatalogoTramite save(CatalogoTramite catalogoTramite){
         return this.catalogoTramiteRepository.save(catalogoTramite);
     }

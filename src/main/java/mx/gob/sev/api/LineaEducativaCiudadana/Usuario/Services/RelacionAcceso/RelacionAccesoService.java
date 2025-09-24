@@ -7,6 +7,9 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.RelacionAcceso;
 public interface RelacionAccesoService {
 
     List<RelacionAcceso> findAll();
+
     RelacionAcceso save(RelacionAcceso relacionAcceso);
-    
+
+    List<RelacionAcceso> findDirectorioByUsuario(Long idUsuario);
+
 }

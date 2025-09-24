@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoTramite;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.RelacionAcceso;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Repositories.RelacionAccesoRepository;
 
@@ -15,13 +16,18 @@ public class RelacionAccesoImpl implements RelacionAccesoService {
     private RelacionAccesoRepository relacionAccesoRepository;
 
     @Override
-    public List<RelacionAcceso> findAll(){
+    public List<RelacionAcceso> findAll() {
         return (List<RelacionAcceso>) this.relacionAccesoRepository.findAll();
     }
 
     @Override
-    public RelacionAcceso save(RelacionAcceso relacionAcceso){
+    public RelacionAcceso save(RelacionAcceso relacionAcceso) {
         return this.relacionAccesoRepository.save(relacionAcceso);
     }
-    
+
+    @Override
+    public List<RelacionAcceso> findDirectorioByUsuario(Long idUsuario) {
+        return (List<RelacionAcceso>) this.relacionAccesoRepository.findDirectorioByUsuario(idUsuario);
+    }
+
 }

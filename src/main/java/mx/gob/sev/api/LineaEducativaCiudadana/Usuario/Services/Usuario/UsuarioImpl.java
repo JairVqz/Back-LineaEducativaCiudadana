@@ -53,7 +53,7 @@ public class UsuarioImpl implements UsuarioService{
 
     @Override
     public Usuario update(Usuario usuario){
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(usuario.getId());
+        Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(usuario.getIdUsuario());
 
         if(usuarioOptional.isPresent()){
             Usuario usuarioExistente = usuarioOptional.get();
@@ -61,12 +61,11 @@ public class UsuarioImpl implements UsuarioService{
             usuarioExistente.setCurp(usuario.getCurp());
             usuarioExistente.setEmail(usuario.getEmail());
             usuarioExistente.setRol(usuario.getRol());
-            usuarioExistente.setRelacionAcceso(usuario.getRelacionAcceso());
             usuarioExistente.setActivo(usuario.getActivo());
 
             return this.usuarioRepository.save(usuarioExistente);
         }
-        throw new RuntimeException("Usuario no encontrado: " + usuario.getId());
+        throw new RuntimeException("Usuario no encontrado: " + usuario.getIdUsuario());
     }
     
 }
