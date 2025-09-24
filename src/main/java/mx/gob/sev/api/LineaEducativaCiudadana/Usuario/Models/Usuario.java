@@ -13,7 +13,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idUsuario;
 
     @Column(name = "nombre")
     private String nombre;
@@ -27,10 +27,6 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "idRol")
     private Rol rol;
-
-    @ManyToOne
-    @JoinColumn(name = "idAcceso")
-    private RelacionAcceso relacionAcceso;
 
     @Column(name = "activo")
     private int activo;

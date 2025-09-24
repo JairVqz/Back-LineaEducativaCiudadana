@@ -21,4 +21,8 @@ public interface CatalogoTramiteRepository extends JpaRepository<CatalogoTramite
     // por id
     @Query("SELECT c FROM CatalogoTramite c WHERE c.idTramite = :idTramite")
     Optional<CatalogoTramite> findById(@Param("idTramite") Long idTramite);
+
+    //TRAMITES POR AREA
+    @Query("SELECT c FROM CatalogoTramite c WHERE c.catalogoArea.idArea = :idArea")
+    List<CatalogoTramite> findTramiteByArea(@Param("idArea") Long idArea);
 }

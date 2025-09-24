@@ -20,14 +20,20 @@ public class RelacionAccesoController {
 
     @GetMapping("/findAll")
     @Transactional(readOnly = true)
-    public List<RelacionAcceso> findAll(){
+    public List<RelacionAcceso> findAll() {
         return this.relacionAccesoImpl.findAll();
     }
 
     @PostMapping
     @Transactional
-    public RelacionAcceso save(@RequestBody RelacionAcceso relacionAcceso){
+    public RelacionAcceso save(@RequestBody RelacionAcceso relacionAcceso) {
         return this.relacionAccesoImpl.save(relacionAcceso);
     }
-    
+
+    @GetMapping("/findDirectorioByUsuario")
+    @Transactional(readOnly = true)
+    public List<RelacionAcceso> findDirectorioByUsuario(@RequestParam Long idUsuario) {
+        return this.relacionAccesoImpl.findDirectorioByUsuario(idUsuario);
+    }
+
 }

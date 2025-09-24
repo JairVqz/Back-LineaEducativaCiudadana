@@ -30,7 +30,7 @@ public class CatalogoTramiteController {
 
     @GetMapping("/findAll")
     @Transactional(readOnly = true)
-    public List<CatalogoTramite> findAll(){
+    public List<CatalogoTramite> findAll() {
         return this.catalogoTramiteImpl.findAll();
     }
 
@@ -57,9 +57,15 @@ public class CatalogoTramiteController {
         }
     }
 
+    @GetMapping("/findTramiteByArea")
+    @Transactional(readOnly = true)
+    public List<CatalogoTramite> findTramiteByArea(@RequestParam Long idArea) {
+        return this.catalogoTramiteImpl.findTramiteByArea(idArea);
+    }
+
     @PostMapping
     @Transactional
-    public CatalogoTramite save(@RequestBody CatalogoTramite catalogoTramite){
+    public CatalogoTramite save(@RequestBody CatalogoTramite catalogoTramite) {
         return this.catalogoTramiteImpl.save(catalogoTramite);
     }
 
@@ -73,5 +79,5 @@ public class CatalogoTramiteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
 }
