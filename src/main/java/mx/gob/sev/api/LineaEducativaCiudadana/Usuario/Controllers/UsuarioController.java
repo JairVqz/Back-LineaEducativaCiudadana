@@ -6,10 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.EntityNotFoundException;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
+import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.VistaUsuario;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Services.Usuario.UsuarioImpl;
 
 @RestController
@@ -23,7 +31,7 @@ public class UsuarioController {
 
     @GetMapping("/findAll")
     @Transactional(readOnly = true)
-    public List<Usuario> findAll(){
+    public List<Usuario> findAll() {
         return this.usuarioImpl.findAll();
     }
 
@@ -52,7 +60,7 @@ public class UsuarioController {
 
     @PostMapping
     @Transactional
-    public Usuario save(@RequestBody Usuario usuario){
+    public Usuario save(@RequestBody Usuario usuario) {
         return this.usuarioImpl.save(usuario);
     }
 
@@ -77,5 +85,20 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-    
+
+    @GetMapping("/findAllVistaU")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<VistaUsuario>> findAllVistaU() {
+        List<VistaUsuario> resultados = usuarioImpl.findAllVistaU();
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
+    @GetMapping("/findAllConAccesos")
+    public List<Usuario> findAllConAccesos() {
+        return usuarioImpl.findAllConAccesos();
+    }
+
 }

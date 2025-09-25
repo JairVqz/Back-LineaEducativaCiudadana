@@ -10,20 +10,26 @@ import org.springframework.data.repository.query.Param;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-     //activos
+    // activos
     @Query("SELECT c FROM Usuario c WHERE c.activo = 1 ORDER BY c.id")
     List<Usuario> findAllActive();
 
-    //inactivos
+    // inactivos
     @Query("SELECT c FROM Usuario c WHERE c.activo = 0 ORDER BY c.id")
     List<Usuario> findAllInactive();
 
-    //por id
+    // por id
     @Query("SELECT c FROM Usuario c WHERE c.id = :id")
     Optional<Usuario> findById(@Param("id") Long id);
 
-    //inicio de sesion
+    // inicio de sesion
     @Query("SELECT c FROM Usuario c WHERE c.email = :email AND c.activo = 1")
     Optional<Usuario> validateLogin(@Param("email") String email);
+
+    @Query(value = "SELECT * FROM vista_usuario ORDER BY idUsuario", nativeQuery = true)
+    List<Object[]> findAllVistaU();
+
+    @Query("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso")
+    List<Usuario> findAllConAccesos();
 
 }
