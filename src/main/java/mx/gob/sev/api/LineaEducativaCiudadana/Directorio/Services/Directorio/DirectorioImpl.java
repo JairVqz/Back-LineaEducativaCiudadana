@@ -1,7 +1,10 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Services.Directorio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,6 +92,21 @@ public class DirectorioImpl implements DirectorioService {
                     directorioActivo));
         }
         return lista;
+    }
+
+    @Override
+    public List<Map<String, Object>> findAllExtensiones() {
+        return relacionDirectorioRepository.findAllExtensiones().stream()
+                .map(fila -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("idDirectorio", fila[0] != null ? ((Number) fila[0]).longValue() : null);
+                    map.put("idArea", fila[1] != null ? ((Number) fila[1]).longValue() : null);
+                    map.put("nombreArea", fila[2] != null ? (String) fila[2] : null);
+                    map.put("extension", fila[3] != null ? (String) fila[3] : null);
+                    map.put("responsable", fila[4] != null ? (String) fila[4] : null);
+                    return map;
+                })
+                .collect(Collectors.toList());
     }
 
 }

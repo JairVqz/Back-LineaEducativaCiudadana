@@ -1,6 +1,7 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,16 @@ public class DirectorioController {
     @Transactional(readOnly = true)
     public ResponseEntity<List<VistaDirectorio>> findAllVistaD() {
         List<VistaDirectorio> resultados = relacionDirectorioImpl.findAllVistaD();
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
+    @GetMapping("/findAllExtensiones")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<Map<String, Object>>> findAllExtensiones() {
+        List<Map<String, Object>> resultados = relacionDirectorioImpl.findAllExtensiones();
         if (resultados.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
