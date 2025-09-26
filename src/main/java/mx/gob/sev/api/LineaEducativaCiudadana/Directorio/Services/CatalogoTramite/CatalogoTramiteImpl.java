@@ -55,7 +55,6 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService{
             if (tramiteExistente.getCatalogoArea() != null) {
                 tramiteExistente.setCatalogoArea(tramite.getCatalogoArea());
             }
-            tramiteExistente.setPublico(tramite.getPublico());
             tramiteExistente.setActivo(tramite.getActivo());
             
             return this.catalogoTramiteRepository.save(tramiteExistente);

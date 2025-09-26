@@ -2,8 +2,6 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Services.CatalogoTrami
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoTramite;
 
 public interface CatalogoTramiteService {

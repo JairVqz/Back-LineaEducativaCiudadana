@@ -16,7 +16,6 @@ public class VistaDirectorio {
     private String nombreAreaInterna;
     private Long idTramite;
     private String nombreTramite;
-    private Long tramitePublico;
     private Long tramiteActivo;
     private Long idExtension;
     private String extension;

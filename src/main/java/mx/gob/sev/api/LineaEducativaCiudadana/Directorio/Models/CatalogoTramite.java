@@ -22,10 +22,7 @@ public class CatalogoTramite {
     @ManyToOne
     @JoinColumn(name = "idArea")
     private CatalogoArea catalogoArea;
-
-    @Column(name = "publico")
-    private int publico;
-
+    
     @Column(name = "activo")
     private int activo;
     

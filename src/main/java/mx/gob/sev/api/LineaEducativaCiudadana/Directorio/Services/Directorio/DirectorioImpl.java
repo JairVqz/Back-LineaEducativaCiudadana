@@ -44,15 +44,14 @@ public class DirectorioImpl implements DirectorioService {
             // tramite
             Number idTramiteNum = (Number) fila[6];
             String nombreTramiteSt = (String) fila[7];
-            Number tramitePublicoNum = (Number) fila[8];
-            Number tramiteActivoNum = (Number) fila[9];
+            Number tramiteActivoNum = (Number) fila[8];
             // extension
-            Number idExtensionNum = (Number) fila[10];
-            String extensionSt = (String) fila[11];
-            String responsableSt = (String) fila[12];
-            Number extensionActivaNum = (Number) fila[13];
+            Number idExtensionNum = (Number) fila[9];
+            String extensionSt = (String) fila[10];
+            String responsableSt = (String) fila[11];
+            Number extensionActivaNum = (Number) fila[12];
             // directorio
-            Number directoroActivoNum = (Number) fila[14];
+            Number directoroActivoNum = (Number) fila[13];
 
             // area
             Long idDirectorio = idDirectorioNum != null ? idDirectorioNum.longValue() : null;
@@ -64,7 +63,6 @@ public class DirectorioImpl implements DirectorioService {
             // tramite
             Long idTramite = idTramiteNum != null ? idTramiteNum.longValue() : null;
             String nombreTramite = nombreTramiteSt != null ? nombreTramiteSt : null;
-            Long tramitePublico = tramitePublicoNum != null ? tramitePublicoNum.longValue() : null;
             Long tramiteActivo = tramiteActivoNum != null ? tramiteActivoNum.longValue() : null;
             // extension
             Long idExtension = idExtensionNum != null ? idExtensionNum.longValue() : null;
@@ -83,7 +81,6 @@ public class DirectorioImpl implements DirectorioService {
                     nombreAreaInterna,
                     idTramite,
                     nombreTramite,
-                    tramitePublico,
                     tramiteActivo,
                     idExtension,
                     extension,

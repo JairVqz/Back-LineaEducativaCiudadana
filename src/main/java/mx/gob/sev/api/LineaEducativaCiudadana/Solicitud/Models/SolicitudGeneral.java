@@ -26,7 +26,7 @@ public class SolicitudGeneral {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idSolicitud;
 
     @Column(name = "folio")
     private String folio;
