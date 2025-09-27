@@ -97,9 +97,9 @@ public class DirectorioImpl implements DirectorioService {
                 .map(fila -> {
                     Map<String, Object> map = new HashMap<>();
                     map.put("idDirectorio", fila[0] != null ? ((Number) fila[0]).longValue() : null);
-                    map.put("idArea", fila[1] != null ? ((Number) fila[1]).longValue() : null);
-                    map.put("nombreArea", fila[2] != null ? (String) fila[2] : null);
-                    map.put("extension", fila[3] != null ? (String) fila[3] : null);
+                    map.put("nombreArea", fila[1] != null ? (String) fila[1] : null);
+                    map.put("extension", fila[2] != null ? (String) fila[2] : null);
+                    map.put("nombreTramite", fila[3] != null ? (String) fila[3] : null);
                     map.put("responsable", fila[4] != null ? (String) fila[4] : null);
                     return map;
                 })
