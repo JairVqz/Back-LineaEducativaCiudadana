@@ -1,6 +1,12 @@
-package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models;
+package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Llamada;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,13 +24,17 @@ public class Llamada {
     private Long idLlamada;
 
     @Column(name = "fecha")
-    private LocalDateTime fecha;
+    private LocalDate fecha;
 
+    @JsonFormat(pattern = "HH:mm:ss")
+    @DateTimeFormat(pattern = "HH:mm:ss")
     @Column(name = "horaInicio")
-    private LocalDateTime horaInicio;
+    private LocalTime horaInicio;
 
+    @JsonFormat(pattern = "HH:mm:ss")
+    @DateTimeFormat(pattern = "HH:mm:ss")
     @Column(name = "horaTermino")
-    private LocalDateTime horaTermino;
+    private LocalTime horaTermino;
 
     @Column(name = "duracionMinutos")
     private String duracionMinutos;

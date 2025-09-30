@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoTramite;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.RelacionAcceso;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Repositories.RelacionAccesoRepository;
 

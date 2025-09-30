@@ -1,4 +1,4 @@
-package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models;
+package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Contacto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
