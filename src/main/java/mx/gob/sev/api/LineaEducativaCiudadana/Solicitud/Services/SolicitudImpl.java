@@ -1,6 +1,8 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Services;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +12,12 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.Directorio
 import mx.gob.sev.api.LineaEducativaCiudadana.Estatus.Repositories.EstatusRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Dto.SolicitudDTO;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Contacto.Contacto;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.FolioSecuencia.FolioSecuencia;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Llamada.Llamada;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.SolicitudGeneral;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Ubicacion.Ubicacion;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Repositories.Contacto.ContactoRepository;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Repositories.FolioSecuencia.FolioSecuenciaRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Repositories.Llamada.LlamadaRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Repositories.Solicitud.SolicitudGeneralRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Repositories.Ubicacion.UbicacionRepository;
@@ -42,6 +46,9 @@ public class SolicitudImpl implements SolicitudService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private FolioSecuenciaRepository folioSecuenciaRepository;
 
     @Transactional
     public SolicitudGeneral guardarSolicitud(SolicitudDTO dto) {
@@ -77,20 +84,22 @@ public class SolicitudImpl implements SolicitudService {
 
         // Crear y guardar SolicitudGeneral
         SolicitudGeneral solicitud = new SolicitudGeneral();
-        solicitud.setFolio(dto.getFolio());
+        solicitud.setFolio(generarFolio());
         solicitud.setNombre(dto.getNombre());
         solicitud.setApellidoPaterno(dto.getApellidoPaterno());
         solicitud.setApellidoMaterno(dto.getApellidoMaterno());
         solicitud.setDescripcion(dto.getDescripcion());
         solicitud.setDiasTranscurridos("0");
         solicitud.setActivo(1);
-
+        solicitud.setResponsable(dto.getResponsable());
         solicitud.setContacto(contacto);
         solicitud.setLlamada(llamada);
         solicitud.setUbicacion(ubicacion);
 
-        /*Directorio directorio = directorioRepository.findById(dto.getIdDirectorio())
-        .orElseThrow(() -> new RuntimeException("Directorio no encontrado"));*/
+        /*
+         * Directorio directorio = directorioRepository.findById(dto.getIdDirectorio())
+         * .orElseThrow(() -> new RuntimeException("Directorio no encontrado"));
+         */
 
         solicitud.setDirectorio(
                 directorioRepository.findById(dto.getIdDirectorio()).orElse(null));
@@ -100,6 +109,34 @@ public class SolicitudImpl implements SolicitudService {
                 usuarioRepository.findById(dto.getIdUsuario()).orElse(null));
 
         return solicitudRepository.save(solicitud);
+    }
+
+    @Transactional
+    private String generarFolio() {
+        LocalDate fechaActual = LocalDate.now();
+        String anioMes = String.format("%04d%02d", fechaActual.getYear(), fechaActual.getMonthValue());
+
+        Optional<FolioSecuencia> optionalSecuencia = folioSecuenciaRepository.findByAnioMesForUpdate(anioMes);
+
+        FolioSecuencia secuencia;
+        if (optionalSecuencia.isPresent()) {
+            secuencia = optionalSecuencia.get();
+        } else {
+            secuencia = new FolioSecuencia();
+            secuencia.setAnioMes(anioMes);
+            secuencia.setConsecutivo(0);
+            secuencia = folioSecuenciaRepository.save(secuencia);
+        }
+
+        int nuevoConsecutivo = secuencia.getConsecutivo() + 1;
+        secuencia.setConsecutivo(nuevoConsecutivo);
+        folioSecuenciaRepository.save(secuencia);
+
+        String folioCompleto = anioMes + String.format("%05d", nuevoConsecutivo);
+
+        System.out.println("Folio completo generado: " + folioCompleto);
+
+        return folioCompleto;
     }
 
     public List<SolicitudGeneral> findAll() {

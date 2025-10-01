@@ -1,7 +1,6 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import lombok.AllArgsConstructor;
@@ -36,7 +35,6 @@ public class SolicitudDTO {
     private String tipoEducacion;
 
     // Solicitud
-    private String folio;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;

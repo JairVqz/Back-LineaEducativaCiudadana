@@ -1,7 +1,6 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Llamada;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;

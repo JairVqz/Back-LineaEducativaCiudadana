@@ -31,7 +31,7 @@ public class SolicitudGeneral {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSolicitud;
 
-    @Column(name = "folio")
+    @Column(name = "folio", unique = true)
     private String folio;
 
     @Column(name = "nombre")

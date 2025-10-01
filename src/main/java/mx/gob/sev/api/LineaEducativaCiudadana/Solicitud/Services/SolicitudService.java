@@ -10,4 +10,3 @@ public interface SolicitudService {
     List<SolicitudGeneral> findAllActive();
     SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
 }
-
