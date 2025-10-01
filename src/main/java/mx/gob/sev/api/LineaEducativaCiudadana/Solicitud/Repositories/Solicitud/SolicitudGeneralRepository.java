@@ -12,8 +12,8 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.Solicit
 public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGeneral, Long> {
 
         // Buscar todos las solicitudes activas
-        @Query("SELECT s FROM SolicitudGeneral s WHERE s.activo = 1 ORDER BY s.id DESC")
-        List<SolicitudGeneral> findAllActive();
+        @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva = 1 ORDER BY idSolicitud", nativeQuery = true)
+        List<Object[]> findAllActive();
 
         @Query(value = "SELECT * FROM tbl_solicitudesGeneral WHERE folio IS NOT NULL ORDER BY folio DESC LIMIT 1", nativeQuery = true)
         Optional<SolicitudGeneral> findFolioUltimaSolicitud();

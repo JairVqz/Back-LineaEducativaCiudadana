@@ -29,8 +29,12 @@ public class SolicitudController {
 
     @GetMapping("/findAllActive")
     @Transactional(readOnly = true)
-    public List<SolicitudGeneral> findAllActive() {
-        return this.solicitudGeneralImpl.findAllActive();
+    public ResponseEntity<List<VistaSolicitud>> findAllActive() {
+        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findAllActive();
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
     }
 
     @PostMapping
@@ -41,7 +45,7 @@ public class SolicitudController {
 
     @GetMapping("/findCoincidenciasSolicitud")
     @Transactional(readOnly = true)
-    public ResponseEntity<List<VistaSolicitud>> findAllVistaD(@RequestParam String nombre, @RequestParam String apellidoPaterno, @RequestParam String apellidoMaterno) {
+    public ResponseEntity<List<VistaSolicitud>> findCoincidenciasSolicitud(@RequestParam String nombre, @RequestParam String apellidoPaterno, @RequestParam String apellidoMaterno) {
         List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findCoincidenciasSolicitud(nombre, apellidoPaterno, apellidoMaterno);
         if (resultados.isEmpty()) {
             return ResponseEntity.noContent().build();
