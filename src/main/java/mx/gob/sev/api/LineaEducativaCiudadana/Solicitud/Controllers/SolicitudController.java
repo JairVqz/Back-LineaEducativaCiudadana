@@ -3,11 +3,13 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Dto.SolicitudDTO;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.SolicitudGeneral;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.VistaSolicitud;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Services.SolicitudImpl;
 
 @RestController
@@ -35,6 +37,16 @@ public class SolicitudController {
     @Transactional
     public SolicitudGeneral save(@RequestBody SolicitudDTO solicitudDTO) {
         return this.solicitudGeneralImpl.guardarSolicitud(solicitudDTO);
+    }
+
+    @GetMapping("/findCoincidenciasSolicitud")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<VistaSolicitud>> findAllVistaD(@RequestParam String nombre, @RequestParam String apellidoPaterno, @RequestParam String apellidoMaterno) {
+        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findCoincidenciasSolicitud(nombre, apellidoPaterno, apellidoMaterno);
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
     }
 
 }
