@@ -1,4 +1,4 @@
-package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models;
+package mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Directorio;
 import mx.gob.sev.api.LineaEducativaCiudadana.Estatus.Models.Estatus;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Contacto.Contacto;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Llamada.Llamada;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Ubicacion.Ubicacion;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 @Getter
@@ -28,7 +31,7 @@ public class SolicitudGeneral {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSolicitud;
 
-    @Column(name = "folio")
+    @Column(name = "folio", unique = true)
     private String folio;
 
     @Column(name = "nombre")
