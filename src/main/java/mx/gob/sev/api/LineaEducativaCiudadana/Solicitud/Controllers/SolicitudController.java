@@ -37,6 +37,17 @@ public class SolicitudController {
         return ResponseEntity.ok(resultados);
     }
 
+    @GetMapping("/findAllActiveByRange")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<VistaSolicitud>> findAllActiveByRange(@RequestParam String fecha_inicio,
+            @RequestParam String fecha_fin) {
+        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findAllActiveByRange(fecha_inicio, fecha_fin);
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
     @PostMapping
     @Transactional
     public SolicitudGeneral save(@RequestBody SolicitudDTO solicitudDTO) {
@@ -45,8 +56,10 @@ public class SolicitudController {
 
     @GetMapping("/findCoincidenciasSolicitud")
     @Transactional(readOnly = true)
-    public ResponseEntity<List<VistaSolicitud>> findCoincidenciasSolicitud(@RequestParam String nombre, @RequestParam String apellidoPaterno, @RequestParam String apellidoMaterno) {
-        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findCoincidenciasSolicitud(nombre, apellidoPaterno, apellidoMaterno);
+    public ResponseEntity<List<VistaSolicitud>> findCoincidenciasSolicitud(@RequestParam String nombre,
+            @RequestParam String apellidoPaterno, @RequestParam String apellidoMaterno) {
+        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findCoincidenciasSolicitud(nombre, apellidoPaterno,
+                apellidoMaterno);
         if (resultados.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
