@@ -9,6 +9,7 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.VistaSo
 public interface SolicitudService {
     List<SolicitudGeneral> findAll();
     List<VistaSolicitud> findAllActive();
+    List<VistaSolicitud> findAllActiveByRange(String fecha_inicio, String fecha_fin);
     SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
     List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
 }
