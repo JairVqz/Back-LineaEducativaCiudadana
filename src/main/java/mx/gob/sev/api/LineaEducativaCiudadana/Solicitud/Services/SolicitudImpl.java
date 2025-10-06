@@ -461,4 +461,107 @@ public class SolicitudImpl implements SolicitudService {
         return lista;
     }
 
+    public List<VistaSolicitud> findAllActiveByRangeAndTramites(String fecha_inicio, String fecha_fin,
+            List<Integer> idsTramites) {
+
+        List<Object[]> resultados = solicitudRepository.findAllActiveByRangeAndTramites(fecha_inicio, fecha_fin,
+                idsTramites);
+        List<VistaSolicitud> lista = new ArrayList<>();
+
+        for (Object[] fila : resultados) {
+            Long idSolicitud = fila[0] != null ? ((Number) fila[0]).longValue() : null;
+            String folio = (String) fila[1];
+            String nombre = (String) fila[2];
+            String apellidoPaterno = (String) fila[3];
+            String apellidoMaterno = (String) fila[4];
+            String descripcion = (String) fila[5];
+            String diasTranscurridos = (String) fila[6];
+            Long idDirectorio = fila[7] != null ? ((Number) fila[7]).longValue() : null;
+            String responsable = (String) fila[8];
+            String correo = (String) fila[9];
+            String telefonoFijo = (String) fila[10];
+            String telefonoCelular = (String) fila[11];
+
+            // ✅ Conversión segura de fechas y horas
+            java.sql.Date fechaSql = (java.sql.Date) fila[12];
+            LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : null;
+
+            java.sql.Time horaInicioSql = (java.sql.Time) fila[13];
+            LocalTime horaInicio = horaInicioSql != null ? horaInicioSql.toLocalTime() : null;
+
+            java.sql.Time horaTerminoSql = (java.sql.Time) fila[14];
+            LocalTime horaTermino = horaTerminoSql != null ? horaTerminoSql.toLocalTime() : null;
+
+            String duracionMinutos = (String) fila[15];
+            String cct = (String) fila[16];
+            String nombrePlantel = (String) fila[17];
+            String nivelEducativo = (String) fila[18];
+            String sostenimiento = (String) fila[19];
+            String municipio = (String) fila[20];
+            String localidad = (String) fila[21];
+            String tipoEducacion = (String) fila[22];
+
+            Long idArea = fila[23] != null ? ((Number) fila[23]).longValue() : null;
+            String area = (String) fila[24];
+
+            Long idTramite = fila[25] != null ? ((Number) fila[25]).longValue() : null;
+            String tramite = (String) fila[26];
+
+            Long idExtension = fila[27] != null ? ((Number) fila[27]).longValue() : null;
+            String extension = (String) fila[28];
+
+            Long idEstatus = fila[29] != null ? ((Number) fila[29]).longValue() : null;
+            String estatus = (String) fila[30];
+
+            Long idUsuario = fila[31] != null ? ((Number) fila[31]).longValue() : null;
+            String nombreUsuario = (String) fila[32];
+            String curpUsuario = (String) fila[33];
+            String emailUsuario = (String) fila[34];
+
+            int solicitudActiva = fila[35] != null ? ((Number) fila[35]).intValue() : 0;
+
+            VistaSolicitud vista = new VistaSolicitud(
+                    idSolicitud,
+                    folio,
+                    nombre,
+                    apellidoPaterno,
+                    apellidoMaterno,
+                    descripcion,
+                    diasTranscurridos,
+                    idDirectorio,
+                    responsable,
+                    correo,
+                    telefonoFijo,
+                    telefonoCelular,
+                    fecha,
+                    horaInicio,
+                    horaTermino,
+                    duracionMinutos,
+                    cct,
+                    nombrePlantel,
+                    nivelEducativo,
+                    sostenimiento,
+                    municipio,
+                    localidad,
+                    tipoEducacion,
+                    idArea,
+                    area,
+                    idTramite,
+                    tramite,
+                    idExtension,
+                    extension,
+                    idEstatus,
+                    estatus,
+                    idUsuario,
+                    nombreUsuario,
+                    curpUsuario,
+                    emailUsuario,
+                    solicitudActiva);
+
+            lista.add(vista);
+        }
+
+        return lista;
+    }
+
 }
