@@ -41,6 +41,7 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
                         "WHERE nombre LIKE %:nombre% " +
                         "AND apellidoPaterno LIKE %:apellidoPaterno% " +
                         "AND apellidoMaterno LIKE %:apellidoMaterno% " +
+                        "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) " +
                         "ORDER BY folio", nativeQuery = true)
         List<Object[]> findCoincidenciasSolicitud(@Param("nombre") String nombre,
                         @Param("apellidoPaterno") String apellidoPaterno,

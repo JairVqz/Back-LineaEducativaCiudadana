@@ -1,5 +1,6 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Bitacora.Services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,13 @@ public class BitacoraImpl implements BitacoraService {
     }
 
     @Override
+    public List<Object[]> findAllActiveByRange(LocalDateTime fecha_inicio, LocalDateTime fecha_fin) {
+        return this.bitacoraRepository.findAllActiveByRange(fecha_inicio, fecha_fin);
+    }
+
+    @Override
     public Bitacora save(Bitacora bitacora){
         return this.bitacoraRepository.save(bitacora);
     }
-    
+
 }
