@@ -12,4 +12,5 @@ public interface SolicitudService {
     List<VistaSolicitud> findAllActiveByRange(String fecha_inicio, String fecha_fin);
     SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
     List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
+    List<VistaSolicitud> findCoincidenciasInicio(String atributoBusqueda, String valorBusqueda);
 }

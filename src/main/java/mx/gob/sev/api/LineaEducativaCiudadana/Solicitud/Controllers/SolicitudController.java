@@ -66,4 +66,15 @@ public class SolicitudController {
         return ResponseEntity.ok(resultados);
     }
 
+    @GetMapping("/findCoincidenciasInicio")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<VistaSolicitud>> findCoincidenciasInicio(@RequestParam String atributoBusqueda,
+            @RequestParam String valorBusqueda) {
+        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findCoincidenciasInicio(atributoBusqueda, valorBusqueda);
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
 }

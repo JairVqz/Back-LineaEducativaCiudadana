@@ -10,6 +10,7 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "tbl_bitacora")
 public class Bitacora {

@@ -15,9 +15,11 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
         @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva = 1 ORDER BY idSolicitud", nativeQuery = true)
         List<Object[]> findAllActive();
 
-        //select * from vista_solicitud where solicitudActiva=1 and CAST(fecha AS DATE) BETWEEN '2025-09-01' AND '2025-10-02'; por rangos de fecha
+        // select * from vista_solicitud where solicitudActiva=1 and CAST(fecha AS DATE)
+        // BETWEEN '2025-09-01' AND '2025-10-02'; por rangos de fecha
         @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva=1 AND CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin ORDER BY idSolicitud", nativeQuery = true)
-        List<Object[]> findAllActiveByRange(@Param("fecha_inicio") String fecha_inicio, @Param("fecha_fin") String fecha_fin);
+        List<Object[]> findAllActiveByRange(@Param("fecha_inicio") String fecha_inicio,
+                        @Param("fecha_fin") String fecha_fin);
 
         @Query(value = "SELECT * FROM tbl_solicitudesGeneral WHERE folio IS NOT NULL ORDER BY folio DESC LIMIT 1", nativeQuery = true)
         Optional<SolicitudGeneral> findFolioUltimaSolicitud();
@@ -31,5 +33,20 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
         List<Object[]> findCoincidenciasSolicitud(@Param("nombre") String nombre,
                         @Param("apellidoPaterno") String apellidoPaterno,
                         @Param("apellidoMaterno") String apellidoMaterno);
+
+        @Query(value = "SELECT * FROM vista_solicitud " +
+                        "WHERE (" +
+                        "   (:atributoBusqueda = 'folio' AND folio LIKE %:valorBusqueda%) OR " +
+                        "   (:atributoBusqueda = 'correo' AND correo LIKE %:valorBusqueda%) OR " +
+                        "   (:atributoBusqueda = 'telefonoFijo' AND telefonoFijo LIKE %:valorBusqueda%) OR " +
+                        "   (:atributoBusqueda = 'telefonoCelular' AND telefonoCelular LIKE %:valorBusqueda%) OR " +
+                        "   (:atributoBusqueda = 'nombreCompleto' AND CONCAT(nombre, ' ', apellidoPaterno, ' ', apellidoMaterno) LIKE %:valorBusqueda%)"
+                        +
+                        ") " +
+                        "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) " +
+                        "ORDER BY folio", nativeQuery = true)
+        List<Object[]> findCoincidenciasInicio(
+                        @Param("atributoBusqueda") String atributoBusqueda,
+                        @Param("valorBusqueda") String valorBusqueda);
 
 }
