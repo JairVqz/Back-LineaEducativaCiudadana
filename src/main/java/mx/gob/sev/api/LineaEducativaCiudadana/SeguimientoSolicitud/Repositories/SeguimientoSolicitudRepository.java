@@ -9,6 +9,6 @@ import mx.gob.sev.api.LineaEducativaCiudadana.SeguimientoSolicitud.Models.Seguim
 
 public interface SeguimientoSolicitudRepository extends JpaRepository<SeguimientoSolicitud, Long> {
     // mensajes de un folio
-    @Query("SELECT c FROM SeguimientoSolicitud c WHERE c.solicitud.id =: idSolicitud ORDER BY c.fecha ASC")
+    @Query("SELECT c FROM SeguimientoSolicitud c WHERE c.solicitud.idSolicitud =:idSolicitud ORDER BY c.fecha ASC")
     List<SeguimientoSolicitud> findAllByIdSolicitud(Long idSolicitud);
 }
