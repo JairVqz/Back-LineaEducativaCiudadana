@@ -62,4 +62,19 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
       @Param("apellidoPaterno") String apellidoPaterno,
       @Param("apellidoMaterno") String apellidoMaterno);
 
+  @Query(value = "SELECT * FROM vista_solicitud " +
+      "WHERE (" +
+      "   (:atributoBusqueda = 'folio' AND folio LIKE %:valorBusqueda%) OR " +
+      "   (:atributoBusqueda = 'correo' AND correo LIKE %:valorBusqueda%) OR " +
+      "   (:atributoBusqueda = 'telefonoFijo' AND telefonoFijo LIKE %:valorBusqueda%) OR " +
+      "   (:atributoBusqueda = 'telefonoCelular' AND telefonoCelular LIKE %:valorBusqueda%) OR " +
+      "   (:atributoBusqueda = 'nombreCompleto' AND CONCAT(nombre, ' ', apellidoPaterno, ' ', apellidoMaterno) LIKE %:valorBusqueda%)"
+      +
+      ") " +
+      "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) " +
+      "ORDER BY folio", nativeQuery = true)
+  List<Object[]> findCoincidenciasInicio(
+      @Param("atributoBusqueda") String atributoBusqueda,
+      @Param("valorBusqueda") String valorBusqueda);
+
 }

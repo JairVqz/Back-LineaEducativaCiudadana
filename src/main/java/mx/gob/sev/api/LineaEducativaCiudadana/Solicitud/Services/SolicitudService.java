@@ -22,4 +22,5 @@ public interface SolicitudService {
     SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
 
     List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
+    List<VistaSolicitud> findCoincidenciasInicio(String atributoBusqueda, String valorBusqueda);
 }
