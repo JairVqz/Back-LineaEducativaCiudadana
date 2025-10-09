@@ -8,5 +8,6 @@ public interface SeguimientoSolicitudService {
 
     List<SeguimientoSolicitud> findAll();
     SeguimientoSolicitud save(SeguimientoSolicitud seguimientoSolicitud);
+    List<SeguimientoSolicitud> findAllByIdSolicitud(Long idSolicitud);
     
 }

@@ -11,11 +11,11 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoArea;
 
 public interface CatalogoAreaRepository extends JpaRepository<CatalogoArea, Long> {
     //activos
-    @Query("SELECT c FROM CatalogoArea c WHERE c.activo = 1 ORDER BY c.idArea")
+    @Query("SELECT c FROM CatalogoArea c WHERE c.activo = 1 ORDER BY c.nombre ASC")
     List<CatalogoArea> findAllActive();
 
     //inactivos
-    @Query("SELECT c FROM CatalogoArea c WHERE c.activo = 0 ORDER BY c.idArea")
+    @Query("SELECT c FROM CatalogoArea c WHERE c.activo = 0 ORDER BY c.nombre ASC")
     List<CatalogoArea> findAllInactive();
 
     //por id

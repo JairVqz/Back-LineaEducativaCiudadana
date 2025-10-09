@@ -14,7 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Directorio;
+import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.SolicitudGeneral;
+import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 @Getter
 @Setter
@@ -28,8 +29,9 @@ public class SeguimientoSolicitud {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSeguimiento;
 
-    @Column(name = "folio")
-    private String folio;
+    @ManyToOne
+    @JoinColumn(name = "idSolicitud", nullable = false)
+    private SolicitudGeneral solicitud;
 
     @Column(name = "comentario")
     private String comentario;
@@ -37,14 +39,11 @@ public class SeguimientoSolicitud {
     @Column(name = "fecha")
     private LocalDateTime fecha;
 
-    @Column(name = "idUsuario")
-    private Long idUsuario;
-
     @ManyToOne
-    @JoinColumn(name = "idDirectorio")
-    private Directorio directorio;
+    @JoinColumn(name = "idUsuario", nullable = false)
+    private Usuario usuario;
 
     @Column(name = "activo")
     private int activo;
-    
+
 }

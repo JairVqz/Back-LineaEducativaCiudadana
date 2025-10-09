@@ -43,6 +43,16 @@ public class DirectorioController {
         return ResponseEntity.ok(resultados);
     }
 
+    @GetMapping("/findTramitesByArea")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<VistaDirectorio>> findTramitesByArea(@RequestParam Long idArea) {
+        List<VistaDirectorio> resultados = relacionDirectorioImpl.findTramitesByArea(idArea);
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
     @GetMapping("/findAllExtensiones")
     @Transactional(readOnly = true)
     public ResponseEntity<List<Map<String, Object>>> findAllExtensiones() {

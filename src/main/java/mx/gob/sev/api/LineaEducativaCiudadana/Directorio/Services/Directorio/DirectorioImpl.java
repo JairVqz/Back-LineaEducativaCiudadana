@@ -92,6 +92,68 @@ public class DirectorioImpl implements DirectorioService {
     }
 
     @Override
+    public List<VistaDirectorio> findTramitesByArea(Long idAreaa) {
+        List<Object[]> resultados = relacionDirectorioRepository.findTramitesByArea(idAreaa);
+        List<VistaDirectorio> lista = new ArrayList<>();
+        for (Object[] fila : resultados) {
+            // area
+            Number idDirectorioNum = (Number) fila[0];
+            Number idAreaNum = (Number) fila[1];
+            String nombreAreaSt = (String) fila[2];
+            Number areaActivaNum = (Number) fila[3];
+            Number idInternoAreaNum = (Number) fila[4];
+            String nombreAreaInternaSt = (String) fila[5];
+            // tramite
+            Number idTramiteNum = (Number) fila[6];
+            String nombreTramiteSt = (String) fila[7];
+            Number tramiteActivoNum = (Number) fila[8];
+            // extension
+            Number idExtensionNum = (Number) fila[9];
+            String extensionSt = (String) fila[10];
+            String responsableSt = (String) fila[11];
+            Number extensionActivaNum = (Number) fila[12];
+            // directorio
+            Number directoroActivoNum = (Number) fila[13];
+
+            // area
+            Long idDirectorio = idDirectorioNum != null ? idDirectorioNum.longValue() : null;
+            Long idArea = idAreaNum != null ? idAreaNum.longValue() : null;
+            String nombreArea = nombreAreaSt != null ? nombreAreaSt : null;
+            Long areaActiva = areaActivaNum != null ? areaActivaNum.longValue() : null;
+            Long idInterno = idInternoAreaNum != null ? idInternoAreaNum.longValue() : null;
+            String nombreAreaInterna = nombreAreaInternaSt != null ? nombreAreaInternaSt : null;
+            // tramite
+            Long idTramite = idTramiteNum != null ? idTramiteNum.longValue() : null;
+            String nombreTramite = nombreTramiteSt != null ? nombreTramiteSt : null;
+            Long tramiteActivo = tramiteActivoNum != null ? tramiteActivoNum.longValue() : null;
+            // extension
+            Long idExtension = idExtensionNum != null ? idExtensionNum.longValue() : null;
+            String extension = extensionSt != null ? extensionSt : null;
+            String responsable = responsableSt != null ? responsableSt : null;
+            Long extensionActiva = extensionActivaNum != null ? extensionActivaNum.longValue() : null;
+            // directorio
+            Long directorioActivo = directoroActivoNum != null ? directoroActivoNum.longValue() : null;
+
+            lista.add(new VistaDirectorio(
+                    idDirectorio,
+                    idArea,
+                    nombreArea,
+                    areaActiva,
+                    idInterno,
+                    nombreAreaInterna,
+                    idTramite,
+                    nombreTramite,
+                    tramiteActivo,
+                    idExtension,
+                    extension,
+                    responsable,
+                    extensionActiva,
+                    directorioActivo));
+        }
+        return lista;
+    }
+
+    @Override
     public List<Map<String, Object>> findAllExtensiones() {
         return relacionDirectorioRepository.findAllExtensiones().stream()
                 .map(fila -> {
