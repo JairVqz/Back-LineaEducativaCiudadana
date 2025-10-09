@@ -24,6 +24,19 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
         @Query(value = "SELECT * FROM tbl_solicitudesGeneral WHERE folio IS NOT NULL ORDER BY folio DESC LIMIT 1", nativeQuery = true)
         Optional<SolicitudGeneral> findFolioUltimaSolicitud();
 
+        @Query(value = """
+                            SELECT *
+                            FROM vista_solicitud
+                            WHERE solicitudActiva = 1
+                              AND idTramite IN (:idsTramites)
+                              AND CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
+                            ORDER BY fecha DESC
+                        """, nativeQuery = true)
+        List<Object[]> findAllActiveByRangeAndTramites(
+                        @Param("fecha_inicio") String fecha_inicio,
+                        @Param("fecha_fin") String fecha_fin,
+                        @Param("idsTramites") List<Integer> idsTramites);
+
         @Query(value = "SELECT * FROM vista_solicitud " +
                         "WHERE nombre LIKE %:nombre% " +
                         "AND apellidoPaterno LIKE %:apellidoPaterno% " +
