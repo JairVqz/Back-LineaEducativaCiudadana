@@ -19,4 +19,7 @@ public interface CatalogoTramiteService {
     CatalogoTramite save(CatalogoTramite catalogoTramite);
 
     CatalogoTramite update(CatalogoTramite catalogoTramite);
+
+    List<CatalogoTramite> findAllActiveTramitesByUsuario(List<Integer> idsTramites);
+
 }

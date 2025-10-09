@@ -14,6 +14,8 @@ public interface DirectorioService {
 
     List<VistaDirectorio> findAllVistaD();
 
+    List<VistaDirectorio> findTramitesByArea(Long idArea);
+
     List<Map<String, Object>> findAllExtensiones();
 
 }

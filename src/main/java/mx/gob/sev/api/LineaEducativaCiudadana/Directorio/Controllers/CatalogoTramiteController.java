@@ -80,4 +80,11 @@ public class CatalogoTramiteController {
         }
     }
 
+    @GetMapping("/findAllActiveTramitesByUsuario")
+    @Transactional(readOnly = true)
+    public List<CatalogoTramite> findAllActiveTramitesByUsuario(
+            @RequestParam List<Integer> idsTramites) {
+        return catalogoTramiteImpl.findAllActiveTramitesByUsuario(idsTramites);
+    }
+
 }
