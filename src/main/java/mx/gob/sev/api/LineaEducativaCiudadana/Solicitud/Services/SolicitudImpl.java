@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.persistence.EntityNotFoundException;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.DirectorioRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Estatus.Repositories.EstatusRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Dto.SolicitudDTO;
@@ -52,6 +53,16 @@ public class SolicitudImpl implements SolicitudService {
 
     @Autowired
     private FolioSecuenciaRepository folioSecuenciaRepository;
+
+    @Override
+    public void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus) {
+        Optional<SolicitudGeneral> solicitud = solicitudRepository.findById(idSolicitud);
+        if (solicitud.isPresent()) {
+            solicitudRepository.cambiarEstatusSolicitud(idSolicitud, idEstatus);
+        } else {
+            throw new EntityNotFoundException("Solicitud con ID " + idSolicitud + " no encontrada.");
+        }
+    }
 
     @Transactional
     public SolicitudGeneral guardarSolicitud(SolicitudDTO dto) {

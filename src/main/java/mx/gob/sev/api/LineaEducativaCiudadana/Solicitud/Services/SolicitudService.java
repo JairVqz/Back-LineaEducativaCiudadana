@@ -7,20 +7,25 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.Solicit
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.VistaSolicitud;
 
 public interface SolicitudService {
-    List<SolicitudGeneral> findAll();
+        List<SolicitudGeneral> findAll();
 
-    List<VistaSolicitud> findAllActive();
+        List<VistaSolicitud> findAllActive();
 
-    List<VistaSolicitud> findAllActiveByRange(String fecha_inicio, String fecha_fin);
+        List<VistaSolicitud> findAllActiveByRange(String fecha_inicio, String fecha_fin);
 
-    List<VistaSolicitud> findAllActiveByRangeAndTramites(String fecha_inicio, String fecha_fin,
-            List<Integer> idsTramites);
+        List<VistaSolicitud> findAllActiveByRangeAndTramites(String fecha_inicio, String fecha_fin,
+                        List<Integer> idsTramites);
 
-    List<VistaSolicitud> findAllActiveByRangeAndArea(String fecha_inicio, String fecha_fin,
-            Long idArea);
+        List<VistaSolicitud> findAllActiveByRangeAndArea(String fecha_inicio, String fecha_fin,
+                        Long idArea);
 
-    SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
+        SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
 
-    List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
-    List<VistaSolicitud> findCoincidenciasInicio(String atributoBusqueda, String valorBusqueda);
+        List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
+
+        List<VistaSolicitud> findCoincidenciasInicio(String atributoBusqueda, String valorBusqueda);
+
+        void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus);
+
+
 }
