@@ -5,19 +5,21 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.persistence.EntityNotFoundException;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoTramite;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.CatalogoTramiteRepository;
 
 @Service
-public class CatalogoTramiteImpl implements CatalogoTramiteService{
+public class CatalogoTramiteImpl implements CatalogoTramiteService {
 
     @Autowired
     private CatalogoTramiteRepository catalogoTramiteRepository;
 
     @Override
-    public List<CatalogoTramite> findAll(){
+    public List<CatalogoTramite> findAll() {
         return (List<CatalogoTramite>) this.catalogoTramiteRepository.findAll();
     }
 
@@ -33,7 +35,8 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService{
 
     @Override
     public CatalogoTramite findById(Long idTramite) {
-        return this.catalogoTramiteRepository.findById(idTramite).orElseThrow(() -> new EntityNotFoundException("Trámite no encontrado: " + idTramite));
+        return this.catalogoTramiteRepository.findById(idTramite)
+                .orElseThrow(() -> new EntityNotFoundException("Trámite no encontrado: " + idTramite));
     }
 
     @Override
@@ -42,7 +45,7 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService{
     }
 
     @Override
-    public CatalogoTramite save(CatalogoTramite catalogoTramite){
+    public CatalogoTramite save(CatalogoTramite catalogoTramite) {
         return this.catalogoTramiteRepository.save(catalogoTramite);
     }
 
@@ -56,10 +59,15 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService{
                 tramiteExistente.setCatalogoArea(tramite.getCatalogoArea());
             }
             tramiteExistente.setActivo(tramite.getActivo());
-            
+
             return this.catalogoTramiteRepository.save(tramiteExistente);
         }
         throw new RuntimeException("Trámite no encontrado: " + tramite.getIdTramite());
     }
-    
+
+    @Override
+    public List<CatalogoTramite> findAllActiveTramitesByUsuario(List<Integer> idsTramites) {
+        return catalogoTramiteRepository.findAllActiveTramitesByUsuario(idsTramites);
+    }
+
 }

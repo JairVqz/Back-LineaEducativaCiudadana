@@ -23,5 +23,10 @@ public class SeguimientoSolicitudImpl implements SeguimientoSolicitudService {
     public SeguimientoSolicitud save(SeguimientoSolicitud seguimientoSolicitud){
         return this.seguimientoSolicitudRepository.save(seguimientoSolicitud);
     }
+
+    @Override
+    public List<SeguimientoSolicitud> findAllByIdSolicitud(Long idSolicitud){
+        return this.seguimientoSolicitudRepository.findAllByIdSolicitud(idSolicitud);
+    }   
     
 }
