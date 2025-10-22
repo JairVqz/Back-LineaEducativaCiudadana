@@ -120,6 +120,22 @@ public class SolicitudController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
 
+    @PutMapping("/redirigirSolicitud")
+    @Transactional
+    public ResponseEntity<?> redirigirSolicitud(@RequestParam Long idSolicitud, @RequestParam Long idDirectorio) {
+        try {
+            this.solicitudGeneralImpl.redirigirSolicitud(idSolicitud, idDirectorio);
+            return ResponseEntity.ok().body("Estatus actualizado");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/actualizarDiasTranscurridos")
+    public ResponseEntity<?> ActualizarDiasTranscurridos() {
+        String result = solicitudGeneralImpl.ActualizarDiasTranscurridos();
+        return ResponseEntity.ok(result);
     }
 }

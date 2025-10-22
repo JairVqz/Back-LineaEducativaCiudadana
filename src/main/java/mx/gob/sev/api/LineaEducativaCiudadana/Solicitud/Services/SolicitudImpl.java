@@ -55,6 +55,17 @@ public class SolicitudImpl implements SolicitudService {
     private FolioSecuenciaRepository folioSecuenciaRepository;
 
     @Override
+    @Transactional
+    public String ActualizarDiasTranscurridos() {
+        try {
+            solicitudRepository.ActualizarDiasTranscurridos();
+            return "Días actualizados";
+        } catch (Exception e) {
+            return "No se pudieron actualizar los días: " + e.getMessage();
+        }
+    }
+
+    @Override
     public void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus) {
         Optional<SolicitudGeneral> solicitud = solicitudRepository.findById(idSolicitud);
         if (solicitud.isPresent()) {
@@ -64,7 +75,17 @@ public class SolicitudImpl implements SolicitudService {
         }
     }
 
-    @Transactional
+    @Override
+    public void redirigirSolicitud(Long idSolicitud, Long idDirectorio) {
+        Optional<SolicitudGeneral> solicitud = solicitudRepository.findById(idSolicitud);
+        if (solicitud.isPresent()) {
+            solicitudRepository.redirigirSolicitud(idSolicitud, idDirectorio);
+        } else {
+            throw new EntityNotFoundException("Solicitud con ID " + idSolicitud + " no encontrada.");
+        }
+    }
+
+    @Override
     public SolicitudGeneral guardarSolicitud(SolicitudDTO dto) {
 
         // Contacto
@@ -179,7 +200,6 @@ public class SolicitudImpl implements SolicitudService {
             String telefonoFijo = (String) fila[10];
             String telefonoCelular = (String) fila[11];
 
-            // ✅ Conversión segura de fechas y horas
             java.sql.Date fechaSql = (java.sql.Date) fila[12];
             LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : null;
 

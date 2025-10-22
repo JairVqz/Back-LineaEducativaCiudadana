@@ -27,5 +27,9 @@ public interface SolicitudService {
 
         void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus);
 
+        void redirigirSolicitud(Long idSolicitud, Long idDirectorio);
+
+        String ActualizarDiasTranscurridos();
+
 
 }
