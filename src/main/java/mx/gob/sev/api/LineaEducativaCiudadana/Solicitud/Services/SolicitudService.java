@@ -31,5 +31,6 @@ public interface SolicitudService {
 
         String ActualizarDiasTranscurridos();
 
+        String ActualizarDiasUnRegistro(String folio, int idEstatus);
 
 }

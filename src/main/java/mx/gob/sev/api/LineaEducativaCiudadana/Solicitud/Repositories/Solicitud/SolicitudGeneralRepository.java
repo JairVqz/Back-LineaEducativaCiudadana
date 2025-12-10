@@ -21,6 +21,10 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
         void ActualizarDiasTranscurridos();
 
         @Modifying
+        @Query(value = "EXEC ActualizarDiasUnRegistro :folio, :idEstatus", nativeQuery = true)
+        void ActualizarDiasUnRegistro(@Param("folio") String folio, @Param("idEstatus") int idEstatus);
+
+        @Modifying
         @Query("UPDATE SolicitudGeneral c SET c.estatus.idEstatus = :idEstatus WHERE c.idSolicitud = :idSolicitud")
         void cambiarEstatusSolicitud(@Param("idSolicitud") Long idSolicitud, @Param("idEstatus") Long idEstatus);
 

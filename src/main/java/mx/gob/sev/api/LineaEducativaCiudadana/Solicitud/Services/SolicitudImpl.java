@@ -66,6 +66,17 @@ public class SolicitudImpl implements SolicitudService {
     }
 
     @Override
+    @Transactional
+    public String ActualizarDiasUnRegistro(String folio, int idEstatus) {
+        try {
+            solicitudRepository.ActualizarDiasUnRegistro(folio, idEstatus);
+            return "Días actualizados";
+        } catch (Exception e) {
+            return "No se pudieron actualizar los días: " + e.getMessage();
+        }
+    }
+
+    @Override
     public void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus) {
         Optional<SolicitudGeneral> solicitud = solicitudRepository.findById(idSolicitud);
         if (solicitud.isPresent()) {

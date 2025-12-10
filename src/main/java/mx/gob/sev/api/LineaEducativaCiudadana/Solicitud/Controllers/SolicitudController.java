@@ -29,6 +29,11 @@ public class SolicitudController {
 
     @Autowired
     private SolicitudImpl solicitudGeneralImpl;
+    //ESTE CONTROLADOR GENERA LOS SCRIPTS NECESARIOS PARA PODER SOLICITAR NUEVOS FOLIOS EN BASE A LO ESTABÑECIDO EN EL FORMULARIO
+    //DE IGUAL FORMA, ES IMPORTANTE ACLARAR QUE ESTOS REGISTROS SE BASAN EN EL FOLIO QUE ES UN NUMERAL CONSECUTIVO BASADO EN LA FECHA
+    //SU ESTRUCTURA ES: AÑO MES CONSECUTIVO
+    //LA SOLICITUD ES ASIGNADA A UN DIRECTORIO COMPUESTO POR UN AREA RESPONSABLE UN EMPLEADO RESPONSABLE Y UNA EXTENSION ASIGNADA-
+    //A SU VEZ, SE DEBERÁ CONOCER EL ÁREA A LA CUÁL PERTENECE (DE ESTA MANERA SE PODRÍA SACAR LA ESTRUCTURA ORGÁNICA)
 
     @GetMapping("/findAll")
     @Transactional(readOnly = true)
@@ -136,6 +141,12 @@ public class SolicitudController {
     @GetMapping("/actualizarDiasTranscurridos")
     public ResponseEntity<?> ActualizarDiasTranscurridos() {
         String result = solicitudGeneralImpl.ActualizarDiasTranscurridos();
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/actualizarDiasUnRegistro")
+    public ResponseEntity<?> ActualizarDiasUnRegistro(@RequestParam String folio, @RequestParam int idEstatus) {
+        String result = solicitudGeneralImpl.ActualizarDiasUnRegistro(folio, idEstatus);
         return ResponseEntity.ok(result);
     }
 }
