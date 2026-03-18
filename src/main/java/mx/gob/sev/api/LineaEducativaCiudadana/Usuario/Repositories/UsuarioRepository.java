@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
     // activos
     @Query("SELECT c FROM Usuario c WHERE c.activo = 1 ORDER BY c.id")
     List<Usuario> findAllActive();
@@ -25,14 +26,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // inicio de sesion
     /*@Query("SELECT c FROM Usuario c WHERE c.email = :email AND c.activo = 1")
     Optional<Usuario> validateLogin(@Param("email") String email);*/
-
     @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso WHERE u.email = :email")
     Optional<Usuario> validateLogin(@Param("email") String email);
 
     @Query(value = "SELECT * FROM vista_usuario ORDER BY idUsuario", nativeQuery = true)
     List<Object[]> findAllVistaU();
-
-    @Query("SELECT DISTINCT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso")
+    
+    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
     List<Usuario> findAllConAccesos();
 
 }
