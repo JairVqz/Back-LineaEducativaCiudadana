@@ -12,4 +12,6 @@ public interface RelacionAccesoService {
 
     List<RelacionAcceso> findDirectorioByUsuario(Long idUsuario);
 
+    void desasignarTramite(Long idAcceso);
+
 }

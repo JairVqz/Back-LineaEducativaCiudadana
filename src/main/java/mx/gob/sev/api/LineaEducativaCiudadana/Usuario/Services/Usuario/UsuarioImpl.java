@@ -41,7 +41,12 @@ public class UsuarioImpl implements UsuarioService {
 
     @Override
     public Usuario save(Usuario usuario) {
-        return this.usuarioRepository.save(usuario);
+        if (usuario.getRelacionAcceso() != null) {
+            usuario.getRelacionAcceso().forEach(rel -> {
+                rel.setUsuario(usuario);
+            });
+        }
+        return usuarioRepository.save(usuario);
     }
 
     @Override
@@ -145,6 +150,5 @@ public class UsuarioImpl implements UsuarioService {
     public List<Usuario> findAllConAccesos() {
         return this.usuarioRepository.findAllConAccesos();
     }
-
 
 }

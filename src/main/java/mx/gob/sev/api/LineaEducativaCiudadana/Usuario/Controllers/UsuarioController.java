@@ -58,12 +58,6 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping
-    @Transactional
-    public Usuario save(@RequestBody Usuario usuario) {
-        return this.usuarioImpl.save(usuario);
-    }
-
     @PutMapping()
     @Transactional
     public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
@@ -99,6 +93,19 @@ public class UsuarioController {
     @GetMapping("/findAllConAccesos")
     public List<Usuario> findAllConAccesos() {
         return usuarioImpl.findAllConAccesos();
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Usuario> guardar(@RequestBody Usuario usuario) {
+
+        if (usuario.getRelacionAcceso() != null) {
+            usuario.getRelacionAcceso().forEach(rel -> {
+                rel.setUsuario(usuario);
+            });
+        }
+
+        Usuario nuevo = usuarioImpl.save(usuario);
+        return ResponseEntity.ok(nuevo);
     }
 
 }
