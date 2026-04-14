@@ -14,8 +14,6 @@ public interface CatalogoTramiteService {
 
     CatalogoTramite findById(Long idTramite);
 
-    List<CatalogoTramite> findTramiteByArea(Long idArea);
-
     CatalogoTramite save(CatalogoTramite catalogoTramite);
 
     CatalogoTramite update(CatalogoTramite catalogoTramite);

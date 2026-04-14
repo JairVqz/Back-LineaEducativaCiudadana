@@ -40,11 +40,6 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService {
     }
 
     @Override
-    public List<CatalogoTramite> findTramiteByArea(Long idArea) {
-        return (List<CatalogoTramite>) this.catalogoTramiteRepository.findTramiteByArea(idArea);
-    }
-
-    @Override
     public CatalogoTramite save(CatalogoTramite catalogoTramite) {
         return this.catalogoTramiteRepository.save(catalogoTramite);
     }
@@ -55,9 +50,6 @@ public class CatalogoTramiteImpl implements CatalogoTramiteService {
         if (tramiteOptional.isPresent()) {
             CatalogoTramite tramiteExistente = tramiteOptional.get();
             tramiteExistente.setTramite(tramite.getTramite());
-            if (tramiteExistente.getCatalogoArea() != null) {
-                tramiteExistente.setCatalogoArea(tramite.getCatalogoArea());
-            }
             tramiteExistente.setActivo(tramite.getActivo());
 
             return this.catalogoTramiteRepository.save(tramiteExistente);

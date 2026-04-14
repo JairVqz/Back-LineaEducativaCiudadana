@@ -18,10 +18,6 @@ public class CatalogoTramite {
 
     @Column(name = "tramite")
     private String tramite;
-
-    @ManyToOne
-    @JoinColumn(name = "idArea")
-    private CatalogoArea catalogoArea;
     
     @Column(name = "activo")
     private int activo;

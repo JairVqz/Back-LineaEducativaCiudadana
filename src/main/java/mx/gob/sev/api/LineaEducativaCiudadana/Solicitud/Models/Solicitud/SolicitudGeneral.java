@@ -43,7 +43,7 @@ public class SolicitudGeneral {
     @Column(name = "apellidoMaterno")
     private String apellidoMaterno;
 
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
     @Column(name = "diasTranscurridos")

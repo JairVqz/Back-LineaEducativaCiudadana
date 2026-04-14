@@ -33,7 +33,7 @@ public class SeguimientoSolicitud {
     @JoinColumn(name = "idSolicitud", nullable = false)
     private SolicitudGeneral solicitud;
 
-    @Column(name = "comentario")
+    @Column(name = "comentario", columnDefinition = "TEXT")
     private String comentario;
 
     @Column(name = "fecha")
