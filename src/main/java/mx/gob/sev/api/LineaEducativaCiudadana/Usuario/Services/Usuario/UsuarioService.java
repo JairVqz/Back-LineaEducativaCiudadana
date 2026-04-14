@@ -23,5 +23,11 @@ public interface UsuarioService {
 
     List<VistaUsuario> findAllVistaU();
 
-    List<Usuario> findAllConAccesos();
+    List<Usuario> findAllActiveConAccesos();
+
+    List<Usuario> findAllInactiveConAccesos();
+
+    void reactivateById(Long id);
+
+    void desactivateById(Long id);
 }

@@ -147,8 +147,32 @@ public class UsuarioImpl implements UsuarioService {
         return lista;
     }
 
-    public List<Usuario> findAllConAccesos() {
-        return this.usuarioRepository.findAllConAccesos();
+    public List<Usuario> findAllActiveConAccesos() {
+        return this.usuarioRepository.findAllActiveConAccesos();
+    }
+
+    public List<Usuario> findAllInactiveConAccesos() {
+        return this.usuarioRepository.findAllInactiveConAccesos();
+    }
+
+    @Override
+    public void reactivateById(Long idSuministro) {
+        Optional<Usuario> suministro = this.usuarioRepository.findById(idSuministro);
+        if (suministro.isPresent()) {
+            this.usuarioRepository.reactivateById(idSuministro);
+        } else {
+            throw new RuntimeException("Usuario no encontrado con el id: " + idSuministro);
+        }
+    }
+
+    @Override
+    public void desactivateById(Long idSuministro) {
+        Optional<Usuario> suministro = this.usuarioRepository.findById(idSuministro);
+        if (suministro.isPresent()) {
+            this.usuarioRepository.desactivateById(idSuministro);
+        } else {
+            throw new RuntimeException("Usuario no encontrado con el id: " + idSuministro);
+        }
     }
 
 }

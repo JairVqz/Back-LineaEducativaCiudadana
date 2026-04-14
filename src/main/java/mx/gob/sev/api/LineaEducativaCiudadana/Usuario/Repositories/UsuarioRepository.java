@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -31,6 +32,17 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Object[]> findAllVistaU();
 
     @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d WHERE u.activo = 1 ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
-    List<Usuario> findAllConAccesos();
+    List<Usuario> findAllActiveConAccesos();
+
+    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d WHERE u.activo = 0 ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
+    List<Usuario> findAllInactiveConAccesos();
+
+    @Modifying
+    @Query("UPDATE Usuario u SET u.activo = 1 WHERE u.id = :id")
+    void reactivateById(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE Usuario u SET u.activo = 0 WHERE u.id = :id")
+    void desactivateById(@Param("id") Long id);
 
 }

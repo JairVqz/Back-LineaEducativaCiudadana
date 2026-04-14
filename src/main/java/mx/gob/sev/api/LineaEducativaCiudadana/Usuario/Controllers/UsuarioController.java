@@ -86,13 +86,18 @@ public class UsuarioController {
         List<VistaUsuario> resultados = usuarioImpl.findAllVistaU();
         if (resultados.isEmpty()) {
             return ResponseEntity.noContent().build();
-        }
+        }   
         return ResponseEntity.ok(resultados);
     }
 
-    @GetMapping("/findAllConAccesos")
-    public List<Usuario> findAllConAccesos() {
-        return usuarioImpl.findAllConAccesos();
+    @GetMapping("/findAllActiveConAccesos")
+    public List<Usuario> findAllActiveConAccesos() {
+        return usuarioImpl.findAllActiveConAccesos();
+    }
+
+    @GetMapping("/findAllInactiveConAccesos")
+    public List<Usuario> findAllInactiveConAccesos() {
+        return usuarioImpl.findAllInactiveConAccesos();
     }
 
     @PostMapping("/save")
@@ -108,4 +113,25 @@ public class UsuarioController {
         return ResponseEntity.ok(nuevo);
     }
 
+    @PutMapping("/reactivateById")
+    @Transactional
+    public ResponseEntity<?> reactivateById(@RequestParam Long id) {
+        try {
+            usuarioImpl.reactivateById(id);
+            return ResponseEntity.ok("Usuario reactivado con éxito");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/desactivateById")
+    @Transactional
+    public ResponseEntity<?> desactivateById(@RequestParam Long id) {
+        try {
+            usuarioImpl.desactivateById(id);
+            return ResponseEntity.ok("Usuario desactivado con éxito");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
 }
