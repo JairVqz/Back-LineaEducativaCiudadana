@@ -27,7 +27,7 @@ public class RelacionAccesoController {
         return this.relacionAccesoImpl.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/save")
     @Transactional
     public RelacionAcceso save(@RequestBody RelacionAcceso relacionAcceso) {
         return this.relacionAccesoImpl.save(relacionAcceso);

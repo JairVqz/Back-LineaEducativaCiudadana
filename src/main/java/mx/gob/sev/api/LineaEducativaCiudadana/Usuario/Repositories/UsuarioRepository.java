@@ -30,7 +30,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query(value = "SELECT * FROM vista_usuario ORDER BY idUsuario", nativeQuery = true)
     List<Object[]> findAllVistaU();
 
-    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
+    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d WHERE u.activo = 1 ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
     List<Usuario> findAllConAccesos();
 
 }
