@@ -27,6 +27,15 @@ public class Directorio {
     @JoinColumn(name = "idExtension")
     private CatalogoExtension catalogoExtension;
 
+    @Column(name = "descripcion", columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "proceso", columnDefinition = "TEXT")
+    private String proceso;
+
+    @Column(name = "modalidad", columnDefinition = "TEXT")
+    private String modalidad;
+
     @Column(name = "activo")
     private int activo;
     

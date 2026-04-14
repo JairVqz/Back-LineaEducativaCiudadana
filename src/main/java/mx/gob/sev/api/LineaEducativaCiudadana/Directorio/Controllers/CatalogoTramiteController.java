@@ -57,12 +57,6 @@ public class CatalogoTramiteController {
         }
     }
 
-    @GetMapping("/findTramiteByArea")
-    @Transactional(readOnly = true)
-    public List<CatalogoTramite> findTramiteByArea(@RequestParam Long idArea) {
-        return this.catalogoTramiteImpl.findTramiteByArea(idArea);
-    }
-
     @PostMapping
     @Transactional
     public CatalogoTramite save(@RequestBody CatalogoTramite catalogoTramite) {
