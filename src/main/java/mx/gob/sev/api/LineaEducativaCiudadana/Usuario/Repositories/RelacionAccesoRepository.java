@@ -16,7 +16,7 @@ public interface RelacionAccesoRepository extends JpaRepository<RelacionAcceso, 
     List<RelacionAcceso> findDirectorioByUsuario(@Param("idUsuario") Long idUsuario);
 
     @Modifying
-    @Query("UPDATE RelacionAcceso c SET c.activo=0 WHERE c.idAcceso= :idAcceso")
+    @Query("DELETE FROM RelacionAcceso c WHERE c.idAcceso= :idAcceso")
     void desasignarTramite(@Param("idAcceso") Long idAcceso);
 
 
