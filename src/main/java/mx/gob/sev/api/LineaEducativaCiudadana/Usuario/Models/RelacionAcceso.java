@@ -15,6 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.Directorio;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoArea;
+
 
 @Getter
 @Setter
@@ -31,6 +33,10 @@ public class RelacionAcceso {
     @ManyToOne
     @JoinColumn(name = "idDirectorio")
     private Directorio directorio;
+
+    @ManyToOne
+    @JoinColumn(name = "idArea")
+    private CatalogoArea area;
 
     @Column(name = "activo")
     private int activo;
