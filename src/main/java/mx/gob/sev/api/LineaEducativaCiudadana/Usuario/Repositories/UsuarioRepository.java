@@ -28,13 +28,27 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso WHERE u.email = :email AND u.activo=1")
     Optional<Usuario> validateLogin(@Param("email") String email);
 
-    @Query(value = "SELECT * FROM vista_usuario ORDER BY idUsuario", nativeQuery = true)
+    @Query(value = "SELECT * FROM vista_usuario ORDER BY idAreaFinal ASC", nativeQuery = true)
     List<Object[]> findAllVistaU();
 
-    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d WHERE u.activo = 1 ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
+    @Query("""
+    SELECT u 
+    FROM Usuario u 
+    LEFT JOIN FETCH u.relacionAcceso ra 
+    LEFT JOIN FETCH ra.directorio d 
+    WHERE u.activo = 1 
+    ORDER BY u.area.idArea ASC, u.rol.idRol ASC
+    """)
     List<Usuario> findAllActiveConAccesos();
 
-    @Query("SELECT u FROM Usuario u LEFT JOIN FETCH u.relacionAcceso ra LEFT JOIN ra.directorio d WHERE u.activo = 0 ORDER BY d.catalogoArea.idArea ASC, u.rol.idRol ASC")
+    @Query("""
+    SELECT u 
+    FROM Usuario u 
+    LEFT JOIN FETCH u.relacionAcceso ra 
+    LEFT JOIN FETCH ra.directorio d 
+    WHERE u.activo = 0 
+    ORDER BY u.area.idArea ASC, u.rol.idRol ASC
+    """)    
     List<Usuario> findAllInactiveConAccesos();
 
     @Modifying
