@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoArea;
 
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
@@ -50,8 +51,14 @@ public class Usuario {
     @Column(name = "activo")
     private int activo;
 
+    @ManyToOne
+    @JoinColumn(name = "idArea")
+    private CatalogoArea area;
+
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<RelacionAcceso> relacionAcceso = new ArrayList<>();
+
+    
 
 }

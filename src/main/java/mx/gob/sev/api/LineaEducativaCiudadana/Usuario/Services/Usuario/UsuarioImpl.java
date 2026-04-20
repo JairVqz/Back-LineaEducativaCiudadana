@@ -90,18 +90,20 @@ public class UsuarioImpl implements UsuarioService {
             String rolSt = (String) fila[5];
             Number activoNum = (Number) fila[6];
             // area
-            Number idDirectorioNum = (Number) fila[7];
-            Number idAreaNum = (Number) fila[8];
-            String nombreAreaSt = (String) fila[9];
-            Number idInternoAreaNum = (Number) fila[10];
-            String nombreAreaInternaSt = (String) fila[11];
+            Number idAreaUsuarioNum = (Number) fila[7];
+            Number idDirectorioNum = (Number) fila[8];
+            Number idAreaDirectorioNum = (Number) fila[9];
+            String nombreAreaSt = (String) fila[10];
+            Number idInternoAreaNum = (Number) fila[11];
+            String nombreAreaInternaSt = (String) fila[12];
             // tramite
-            Number idTramiteNum = (Number) fila[12];
-            String nombreTramiteSt = (String) fila[13];
+            Number idTramiteNum = (Number) fila[13];
+            String nombreTramiteSt = (String) fila[14];
             // extension
-            Number idExtensionNum = (Number) fila[14];
-            String extensionSt = (String) fila[15];
-            String responsableSt = (String) fila[16];
+            Number idExtensionNum = (Number) fila[15];
+            String extensionSt = (String) fila[16];
+            String responsableSt = (String) fila[17];
+            Number idAreaFinalNum = (Number) fila[18];
 
             // usuario
             Long idUsuario = idUsuarioNum != null ? idUsuarioNum.longValue() : null;
@@ -112,8 +114,9 @@ public class UsuarioImpl implements UsuarioService {
             String rol = rolSt != null ? rolSt : null;
             Long activo = activoNum != null ? activoNum.longValue() : null;
             // area
+            Long idAreaUsuario = idAreaUsuarioNum != null ? idAreaUsuarioNum.longValue() : null;
             Long idDirectorio = idDirectorioNum != null ? idDirectorioNum.longValue() : null;
-            Long idArea = idAreaNum != null ? idAreaNum.longValue() : null;
+            Long idAreaDirectorio = idAreaDirectorioNum != null ? idAreaDirectorioNum.longValue() : null;
             String nombreArea = nombreAreaSt != null ? nombreAreaSt : null;
             Long idInterno = idInternoAreaNum != null ? idInternoAreaNum.longValue() : null;
             String nombreAreaInterna = nombreAreaInternaSt != null ? nombreAreaInternaSt : null;
@@ -124,6 +127,7 @@ public class UsuarioImpl implements UsuarioService {
             Long idExtension = idExtensionNum != null ? idExtensionNum.longValue() : null;
             String extension = extensionSt != null ? extensionSt : null;
             String responsable = responsableSt != null ? responsableSt : null;
+            Long idAreaFinal = idAreaFinalNum != null ? idAreaFinalNum.longValue() : null;
 
             lista.add(new VistaUsuario(
                     idUsuario,
@@ -133,8 +137,9 @@ public class UsuarioImpl implements UsuarioService {
                     idRol,
                     rol,
                     activo,
+                    idAreaUsuario, 
                     idDirectorio,
-                    idArea,
+                    idAreaDirectorio,
                     nombreArea,
                     idInterno,
                     nombreAreaInterna,
@@ -142,14 +147,16 @@ public class UsuarioImpl implements UsuarioService {
                     nombreTramite,
                     idExtension,
                     extension,
-                    responsable));
+                    responsable, 
+                    idAreaFinal
+                ));
         }
         return lista;
     }
 
     public List<Usuario> findAllActiveConAccesos() {
         return this.usuarioRepository.findAllActiveConAccesos();
-    }
+    }   
 
     public List<Usuario> findAllInactiveConAccesos() {
         return this.usuarioRepository.findAllInactiveConAccesos();

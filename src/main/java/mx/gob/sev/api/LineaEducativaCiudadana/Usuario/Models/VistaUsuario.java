@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 
 public class VistaUsuario {
+
     private Long idUsuario;
     private String nombre;
     private String curp;
@@ -15,8 +16,9 @@ public class VistaUsuario {
     private Long idRol;
     private String rol;
     private Long activo;
+    private Long idAreaUsuario;
     private Long idDirectorio;
-    private Long idArea;
+    private Long idAreaDirectorio;
     private String nombreArea;
     private Long idInternoArea;
     private String nombreAreaInterna;
@@ -25,4 +27,6 @@ public class VistaUsuario {
     private Long idExtension;
     private String extension;
     private String responsable;
+    private Long idAreaFinal;
+     
 }
