@@ -76,6 +76,7 @@ public class UsuarioImpl implements UsuarioService {
         }
 
         if (usuario.getRol().getIdRol() == 4) {
+            usuarioExistente.setArea(usuario.getArea());
             usuarioExistente.getRelacionAcceso().clear();
             if (usuario.getRelacionAcceso() != null) {
                 usuario.getRelacionAcceso().forEach(rel -> {

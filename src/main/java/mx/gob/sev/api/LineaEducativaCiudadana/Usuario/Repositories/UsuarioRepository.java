@@ -32,23 +32,59 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Object[]> findAllVistaU();
 
     @Query("""
-    SELECT u 
-    FROM Usuario u 
-    LEFT JOIN FETCH u.relacionAcceso ra 
-    LEFT JOIN FETCH ra.directorio d 
-    WHERE u.activo = 1 
-    ORDER BY u.area.idArea ASC, u.rol.idRol ASC
+    SELECT u
+    FROM Usuario u
+    LEFT JOIN FETCH u.relacionAcceso ra
+    LEFT JOIN FETCH ra.directorio d
+    WHERE u.activo = 1
+    ORDER BY 
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN 1
+            WHEN u.rol.idRol IN (3,4) THEN 2
+            ELSE 3
+        END,
+
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN u.rol.idRol
+            ELSE 0
+        END ASC,
+
+        u.area.nombre ASC,
+
+        CASE 
+            WHEN u.rol.idRol = 3 THEN 1
+            WHEN u.rol.idRol = 4 THEN 2
+            ELSE 0
+        END
     """)
     List<Usuario> findAllActiveConAccesos();
 
     @Query("""
-    SELECT u 
-    FROM Usuario u 
-    LEFT JOIN FETCH u.relacionAcceso ra 
-    LEFT JOIN FETCH ra.directorio d 
-    WHERE u.activo = 0 
-    ORDER BY  u.rol.idRol ASC, u.area.idArea ASC
-    """)    
+    SELECT u
+    FROM Usuario u
+    LEFT JOIN FETCH u.relacionAcceso ra
+    LEFT JOIN FETCH ra.directorio d
+    WHERE u.activo = 0
+    ORDER BY 
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN 1
+            WHEN u.rol.idRol IN (3,4) THEN 2
+            ELSE 3
+        END,
+
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN u.rol.idRol
+            ELSE 0
+        END ASC,
+
+        u.area.nombre ASC,
+
+        CASE 
+            WHEN u.rol.idRol = 3 THEN 1
+            WHEN u.rol.idRol = 4 THEN 2
+            ELSE 0
+        END
+    """)
     List<Usuario> findAllInactiveConAccesos();
 
     @Modifying
