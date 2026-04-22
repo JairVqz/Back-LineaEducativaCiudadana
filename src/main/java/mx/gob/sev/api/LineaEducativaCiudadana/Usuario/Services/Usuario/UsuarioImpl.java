@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.RelacionAcceso;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.VistaUsuario;
 import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Repositories.UsuarioRepository;
@@ -61,19 +62,34 @@ public class UsuarioImpl implements UsuarioService {
 
     @Override
     public Usuario update(Usuario usuario) {
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.findById(usuario.getIdUsuario());
+        Usuario usuarioExistente = usuarioRepository.findById(usuario.getIdUsuario())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuarioExistente.setNombre(usuario.getNombre());
+        usuarioExistente.setCurp(usuario.getCurp());
+        usuarioExistente.setEmail(usuario.getEmail());
+        usuarioExistente.setRol(usuario.getRol());
+        usuarioExistente.setActivo(usuario.getActivo());
 
-        if (usuarioOptional.isPresent()) {
-            Usuario usuarioExistente = usuarioOptional.get();
-            usuarioExistente.setNombre(usuario.getNombre());
-            usuarioExistente.setCurp(usuario.getCurp());
-            usuarioExistente.setEmail(usuario.getEmail());
-            usuarioExistente.setRol(usuario.getRol());
-            usuarioExistente.setActivo(usuario.getActivo());
-
-            return this.usuarioRepository.save(usuarioExistente);
+        if (usuario.getRol().getIdRol() != 4) {
+            usuarioExistente.setArea(usuario.getArea());
+            usuarioExistente.getRelacionAcceso().clear();
         }
-        throw new RuntimeException("Usuario no encontrado: " + usuario.getIdUsuario());
+
+        if (usuario.getRol().getIdRol() == 4) {
+            usuarioExistente.getRelacionAcceso().clear();
+            if (usuario.getRelacionAcceso() != null) {
+                usuario.getRelacionAcceso().forEach(rel -> {
+                    RelacionAcceso nueva = new RelacionAcceso();
+                    nueva.setActivo(1);
+                    nueva.setDirectorio(rel.getDirectorio());
+                    nueva.setUsuario(usuarioExistente);
+
+                    usuarioExistente.getRelacionAcceso().add(nueva);
+                });
+            }
+        }
+
+        return usuarioRepository.save(usuarioExistente);
     }
 
     @Override
@@ -137,7 +153,7 @@ public class UsuarioImpl implements UsuarioService {
                     idRol,
                     rol,
                     activo,
-                    idAreaUsuario, 
+                    idAreaUsuario,
                     idDirectorio,
                     idAreaDirectorio,
                     nombreArea,
@@ -147,16 +163,16 @@ public class UsuarioImpl implements UsuarioService {
                     nombreTramite,
                     idExtension,
                     extension,
-                    responsable, 
+                    responsable,
                     idAreaFinal
-                ));
+            ));
         }
         return lista;
     }
 
     public List<Usuario> findAllActiveConAccesos() {
         return this.usuarioRepository.findAllActiveConAccesos();
-    }   
+    }
 
     public List<Usuario> findAllInactiveConAccesos() {
         return this.usuarioRepository.findAllInactiveConAccesos();

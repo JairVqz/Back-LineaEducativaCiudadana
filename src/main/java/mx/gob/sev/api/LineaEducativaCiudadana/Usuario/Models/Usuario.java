@@ -55,7 +55,7 @@ public class Usuario {
     @JoinColumn(name = "idArea")
     private CatalogoArea area;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<RelacionAcceso> relacionAcceso = new ArrayList<>();
 

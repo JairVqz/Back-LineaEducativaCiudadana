@@ -47,7 +47,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     LEFT JOIN FETCH u.relacionAcceso ra 
     LEFT JOIN FETCH ra.directorio d 
     WHERE u.activo = 0 
-    ORDER BY u.area.idArea ASC, u.rol.idRol ASC
+    ORDER BY  u.rol.idRol ASC, u.area.idArea ASC
     """)    
     List<Usuario> findAllInactiveConAccesos();
 
