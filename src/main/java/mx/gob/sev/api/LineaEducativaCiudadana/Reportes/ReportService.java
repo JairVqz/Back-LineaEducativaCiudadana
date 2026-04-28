@@ -36,6 +36,12 @@ public class ReportService {
         params.put("fecha_inicio", Date.valueOf(fechaInicio));
         params.put("fecha_fin", Date.valueOf(fechaFin));
 
+        InputStream membrete = getClass().getResourceAsStream("/Images/membrete.png");
+        params.put("membrete", membrete);
+
+        InputStream lec = getClass().getResourceAsStream("/Images/LEC.png");
+        params.put("lec", lec);
+
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 reportStream,
                 params,

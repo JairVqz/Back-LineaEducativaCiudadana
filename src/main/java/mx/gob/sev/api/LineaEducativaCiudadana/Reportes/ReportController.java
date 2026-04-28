@@ -33,7 +33,7 @@ public class ReportController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.add("Content-Disposition", "inline; filename=ejemploReporte.pdf");
+            headers.add("Content-Disposition", "inline; filename=reportePeriodo.pdf");
 
             return new ResponseEntity<>(report, headers, HttpStatus.OK);
 
