@@ -19,7 +19,7 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @GetMapping("/ejemploReporte")
+    @GetMapping("/reportePeriodo")
     public ResponseEntity<byte[]> generarReporte(
             @RequestParam String fechaInicio,
             @RequestParam String fechaFin
