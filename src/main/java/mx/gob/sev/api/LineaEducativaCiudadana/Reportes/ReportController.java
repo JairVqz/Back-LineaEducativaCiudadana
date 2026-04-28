@@ -1,5 +1,8 @@
 package mx.gob.sev.api.LineaEducativaCiudadana.Reportes;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,9 +34,18 @@ public class ReportController {
                     fechaFin
             );
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+
+            String fechaInicioFmt = LocalDate.parse(fechaInicio).format(formatter);
+            String fechaFinFmt = LocalDate.parse(fechaFin).format(formatter);
+
+            String fileName = "LEC_ReportePeriodo_"
+                    + fechaInicioFmt + "_"
+                    + fechaFinFmt + ".pdf";
+
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.add("Content-Disposition", "inline; filename=reportePeriodo.pdf");
+            headers.add("Content-Disposition", "inline; filename=" + fileName);
 
             return new ResponseEntity<>(report, headers, HttpStatus.OK);
 
