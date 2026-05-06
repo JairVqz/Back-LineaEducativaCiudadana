@@ -19,6 +19,4 @@ public interface RelacionAccesoRepository extends JpaRepository<RelacionAcceso, 
     @Query("DELETE FROM RelacionAcceso c WHERE c.idAcceso= :idAcceso")
     void desasignarTramite(@Param("idAcceso") Long idAcceso);
 
-
-
 }

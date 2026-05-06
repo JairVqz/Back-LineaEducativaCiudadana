@@ -313,7 +313,6 @@ public class SolicitudImpl implements SolicitudService {
             String telefonoFijo = (String) fila[10];
             String telefonoCelular = (String) fila[11];
 
-            // ✅ Conversión segura de fechas y horas
             java.sql.Date fechaSql = (java.sql.Date) fila[12];
             LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : null;
 
@@ -421,7 +420,6 @@ public class SolicitudImpl implements SolicitudService {
             String telefonoFijo = (String) fila[10];
             String telefonoCelular = (String) fila[11];
 
-            // ✅ Conversión segura de fechas y horas
             java.sql.Date fechaSql = (java.sql.Date) fila[12];
             LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : null;
 
@@ -629,7 +627,6 @@ public class SolicitudImpl implements SolicitudService {
             String telefonoFijo = (String) fila[10];
             String telefonoCelular = (String) fila[11];
 
-            // ✅ Conversión segura de fechas y horas
             java.sql.Date fechaSql = (java.sql.Date) fila[12];
             LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : null;
 
@@ -732,7 +729,6 @@ public class SolicitudImpl implements SolicitudService {
             String telefonoFijo = (String) fila[10];
             String telefonoCelular = (String) fila[11];
 
-            // Conversión segura de fechas y horas
             java.sql.Date fechaSql = (java.sql.Date) fila[12];
             LocalDate fecha = fechaSql != null ? fechaSql.toLocalDate() : null;
 

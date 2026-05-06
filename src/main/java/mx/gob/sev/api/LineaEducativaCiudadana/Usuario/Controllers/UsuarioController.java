@@ -100,6 +100,16 @@ public class UsuarioController {
         return usuarioImpl.findAllInactiveConAccesos();
     }
 
+    @GetMapping("/findAllActiveConAccesosSupervisor")
+    public List<Usuario> findAllActiveConAccesosSupervisor(@RequestParam Long idArea) {
+        return usuarioImpl.findAllActiveConAccesosSupervisor(idArea);
+    }
+
+    @GetMapping("/findAllInactiveConAccesosSupervisor")
+    public List<Usuario> findAllInactiveConAccesosSupervisor(@RequestParam Long idArea) {
+        return usuarioImpl.findAllInactiveConAccesosSupervisor(idArea);
+    }
+
     @PostMapping("/save")
     public ResponseEntity<Usuario> guardar(@RequestBody Usuario usuario) {
 

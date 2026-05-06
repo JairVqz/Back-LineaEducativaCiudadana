@@ -27,6 +27,10 @@ public interface UsuarioService {
 
     List<Usuario> findAllInactiveConAccesos();
 
+    List<Usuario> findAllActiveConAccesosSupervisor(Long idArea);
+
+    List<Usuario> findAllInactiveConAccesosSupervisor(Long idArea);
+
     void reactivateById(Long id);
 
     void desactivateById(Long id);

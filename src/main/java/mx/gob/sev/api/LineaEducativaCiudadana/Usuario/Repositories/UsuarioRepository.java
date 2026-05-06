@@ -87,6 +87,62 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     """)
     List<Usuario> findAllInactiveConAccesos();
 
+    @Query("""
+    SELECT u
+    FROM Usuario u
+    LEFT JOIN FETCH u.relacionAcceso ra
+    LEFT JOIN FETCH ra.directorio d
+    WHERE u.activo = 1 AND u.area.idArea = :idArea
+    ORDER BY 
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN 1
+            WHEN u.rol.idRol IN (3,4) THEN 2
+            ELSE 3
+        END,
+
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN u.rol.idRol
+            ELSE 0
+        END ASC,
+
+        u.area.nombre ASC,
+
+        CASE 
+            WHEN u.rol.idRol = 3 THEN 1
+            WHEN u.rol.idRol = 4 THEN 2
+            ELSE 0
+        END
+    """)
+    List<Usuario> findAllActiveConAccesosSupervisor(@Param("idArea") Long idArea);
+
+    @Query("""
+    SELECT u
+    FROM Usuario u
+    LEFT JOIN FETCH u.relacionAcceso ra
+    LEFT JOIN FETCH ra.directorio d
+    WHERE u.activo = 0 AND u.area.idArea = :idArea
+    ORDER BY 
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN 1
+            WHEN u.rol.idRol IN (3,4) THEN 2
+            ELSE 3
+        END,
+
+        CASE 
+            WHEN u.rol.idRol IN (1,2,5,6) THEN u.rol.idRol
+            ELSE 0
+        END ASC,
+
+        u.area.nombre ASC,
+
+        CASE 
+            WHEN u.rol.idRol = 3 THEN 1
+            WHEN u.rol.idRol = 4 THEN 2
+            ELSE 0
+        END
+    """)
+    List<Usuario> findAllInactiveConAccesosSupervisor(@Param("idArea") Long idArea);
+
     @Modifying
     @Query("UPDATE Usuario u SET u.activo = 1 WHERE u.id = :id")
     void reactivateById(@Param("id") Long id);

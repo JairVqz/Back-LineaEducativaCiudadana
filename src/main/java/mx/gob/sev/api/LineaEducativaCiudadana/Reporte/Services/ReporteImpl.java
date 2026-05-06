@@ -2,7 +2,6 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Reporte.Services;
 
 import java.io.InputStream;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;

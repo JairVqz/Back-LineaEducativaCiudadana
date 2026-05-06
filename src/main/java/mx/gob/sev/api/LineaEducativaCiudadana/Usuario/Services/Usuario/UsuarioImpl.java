@@ -171,12 +171,24 @@ public class UsuarioImpl implements UsuarioService {
         return lista;
     }
 
+    @Override
     public List<Usuario> findAllActiveConAccesos() {
         return this.usuarioRepository.findAllActiveConAccesos();
     }
 
+    @Override
     public List<Usuario> findAllInactiveConAccesos() {
         return this.usuarioRepository.findAllInactiveConAccesos();
+    }
+
+    @Override
+    public List<Usuario> findAllActiveConAccesosSupervisor(Long idArea) {
+        return this.usuarioRepository.findAllActiveConAccesosSupervisor(idArea);
+    }
+
+    @Override
+    public List<Usuario> findAllInactiveConAccesosSupervisor(Long idArea) {
+        return this.usuarioRepository.findAllInactiveConAccesosSupervisor(idArea);
     }
 
     @Override
