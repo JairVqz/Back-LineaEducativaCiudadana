@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models.CatalogoTramite;
 
 public interface CatalogoTramiteRepository extends JpaRepository<CatalogoTramite, Long> {
+
     // activos
     @Query("SELECT c FROM CatalogoTramite c WHERE c.activo = 1 ORDER BY c.idTramite")
     List<CatalogoTramite> findAllActive();
@@ -25,4 +26,7 @@ public interface CatalogoTramiteRepository extends JpaRepository<CatalogoTramite
     // tramites de un usuario al loguearse
     @Query("SELECT c FROM CatalogoTramite c WHERE c.activo = 1 AND c.idTramite IN (:idsTramites) ORDER BY c.tramite ASC")
     List<CatalogoTramite> findAllActiveTramitesByUsuario(@Param("idsTramites") List<Integer> idsTramites);
+
+    Optional<CatalogoTramite> findByTramiteIgnoreCase(String tramite);
+
 }

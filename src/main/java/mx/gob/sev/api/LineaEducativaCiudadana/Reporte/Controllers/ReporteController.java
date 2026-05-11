@@ -100,4 +100,45 @@ public class ReporteController {
         }
         return ResponseEntity.ok(topAreas);
     }
+
+    @GetMapping("/kpiSupervisor")
+    public ResponseEntity<List<KpiModel>> findKpiSupervisor(
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin,
+            @RequestParam Long idArea
+    ) {
+
+        List<KpiModel> kpi = this.reportService.findKpiSupervisor(fechaInicio, fechaFin, idArea);
+        if (kpi.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(kpi);
+    }
+
+    @GetMapping("/llamadasHoraSupervisor")
+    public ResponseEntity<List<LlamadasHoraModel>> findLlamadasHoraSupervisor(
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin,
+            @RequestParam Long idArea
+    ) {
+
+        List<LlamadasHoraModel> llamadasHora = this.reportService.findLlamadasHoraSupervisor(fechaInicio, fechaFin, idArea);
+        if (llamadasHora.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(llamadasHora);
+    }
+
+    @GetMapping("/topTramitesSupervisor")
+    public ResponseEntity<List<TopAreasModel>> findTopTramitesSupervisor(
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin,
+            @RequestParam Long idArea
+    ) {
+        List<TopAreasModel> topAreas = this.reportService.findTopTramitesSupervisor(fechaInicio, fechaFin, idArea);
+        if (topAreas.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(topAreas);
+    }
 }

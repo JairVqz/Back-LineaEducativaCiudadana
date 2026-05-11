@@ -12,10 +12,18 @@ public interface DirectorioService {
 
     Directorio save(Directorio relacionDirectorio);
 
-    List<VistaDirectorio> findAllVistaD();
+    List<VistaDirectorio> findAllVistaDActivo();
 
-    List<VistaDirectorio> findTramitesByArea(Long idArea);
+    List<VistaDirectorio> findAllVistaDInactivo();
+
+    List<VistaDirectorio> findTramitesByAreaActivo(Long idArea);
+
+    List<VistaDirectorio> findTramitesByAreaInactivo(Long idArea);
 
     List<Map<String, Object>> findAllExtensiones();
+
+    void reactivateByIdDirectorio(Long idDirectorio);
+
+    void desactivateByIdDirectorio(Long idDirectorio);
 
 }

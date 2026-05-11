@@ -126,4 +126,69 @@ public class ReporteImpl implements ReporteService {
         }
         return lista;
     }
+
+
+    @Override
+    public List<KpiModel> findKpiSupervisor(String fecha_inicio, String fecha_fin, Long idArea) {
+        List<Object[]> resultados = reporteRepository.findKpiSupervisor(fecha_inicio, fecha_fin, idArea);
+
+        List<KpiModel> lista = new ArrayList<>();
+
+        for (Object[] fila : resultados) {
+
+            int llamadas_recibidas = fila[0] != null ? ((Number) fila[0]).intValue() : 0;
+            LocalTime primera_llamada = fila[1] != null
+                    ? ((java.sql.Time) fila[1]).toLocalTime()
+                    : null;
+
+            LocalTime ultima_llamada = fila[3] != null
+                    ? ((java.sql.Time) fila[3]).toLocalTime()
+                    : null;
+            int total_duracion = fila[2] != null ? ((Number) fila[2]).intValue() : 0;
+
+            KpiModel kpi = new KpiModel(
+                    llamadas_recibidas,
+                    primera_llamada,
+                    total_duracion,
+                    ultima_llamada
+            );
+            lista.add(kpi);
+        }
+        return lista;
+
+    }
+
+    @Override
+    public List<LlamadasHoraModel> findLlamadasHoraSupervisor(String fecha_inicio, String fecha_fin, Long idArea) {
+        List<Object[]> resultados = reporteRepository.findLlamadasHoraSupervisor(fecha_inicio, fecha_fin, idArea);
+        List<LlamadasHoraModel> lista = new ArrayList<>();
+
+        for (Object[] fila : resultados) {
+            int hora = fila[0] != null ? ((Number) fila[0]).intValue() : 0;
+            String label = fila[1] != null ? (String) fila[1] : "";
+            int total = fila[2] != null ? ((Number) fila[2]).intValue() : 0;
+
+            LlamadasHoraModel llamadaHora = new LlamadasHoraModel(hora, label, total);
+            lista.add(llamadaHora);
+        }
+        return lista;
+    }
+
+    @Override
+    public List<TopAreasModel> findTopTramitesSupervisor(String fecha_inicio, String fecha_fin, Long idArea) {
+        List<Object[]> resultados = reporteRepository.findTopTramitesSupervisor(fecha_inicio, fecha_fin, idArea);
+        List<TopAreasModel> lista = new ArrayList<>();
+        for (Object[] fila : resultados) {
+            String area = fila[0] != null ? (String) fila[0] : "";
+            double porcentaje = fila[1] != null ? ((Number) fila[1]).doubleValue() : 0.0;
+            int cantidad = fila[2] != null ? ((Number) fila[2]).intValue() : 0;
+            int soliPendientes = fila[3] != null ? ((Number) fila[3]).intValue() : 0;
+            int soliProceso = fila[4] != null ? ((Number) fila[4]).intValue() : 0;
+            int soliTerminado = fila[5] != null ? ((Number) fila[5]).intValue() : 0;
+
+            TopAreasModel topArea = new TopAreasModel(area, porcentaje, cantidad, soliPendientes, soliProceso, soliTerminado);
+            lista.add(topArea);
+        }
+        return lista;
+    }
 }

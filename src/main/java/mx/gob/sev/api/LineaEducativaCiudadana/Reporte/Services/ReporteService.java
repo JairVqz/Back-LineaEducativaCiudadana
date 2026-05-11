@@ -16,4 +16,10 @@ public interface ReporteService {
 
     List<TopAreasModel> findTopAreas(String fecha_inicio, String fecha_fin);
 
+    List<KpiModel> findKpiSupervisor(String fecha_inicio, String fecha_fin, Long idArea);
+
+    List<LlamadasHoraModel> findLlamadasHoraSupervisor(String fecha_inicio, String fecha_fin, Long idArea);
+
+    List<TopAreasModel> findTopTramitesSupervisor(String fecha_inicio, String fecha_fin, Long idArea);
+
 }
