@@ -86,6 +86,18 @@ public class SolicitudController {
         return ResponseEntity.ok(resultados);
     }
 
+    @GetMapping("/findAllActiveByRangeAndAreaEstructura")
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<VistaSolicitud>> findAllActiveByRangeAndAreaEstructura(@RequestParam String fecha_inicio,
+            @RequestParam String fecha_fin, @RequestParam Long idArea) {
+        List<VistaSolicitud> resultados = this.solicitudGeneralImpl.findAllActiveByRangeAndAreaEstructura(fecha_inicio,
+                fecha_fin, idArea);
+        if (resultados.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultados);
+    }
+
     @PostMapping
     @Transactional
     public SolicitudGeneral save(@RequestBody SolicitudDTO solicitudDTO) {

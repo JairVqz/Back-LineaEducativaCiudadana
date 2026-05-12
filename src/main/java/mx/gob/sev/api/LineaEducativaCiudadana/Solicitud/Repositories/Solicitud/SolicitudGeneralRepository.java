@@ -12,34 +12,34 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.Solicit
 
 public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGeneral, Long> {
 
-        // Buscar todos las solicitudes activas
-        @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva = 1 ORDER BY idSolicitud", nativeQuery = true)
-        List<Object[]> findAllActive();
+    // Buscar todos las solicitudes activas
+    @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva = 1 ORDER BY idSolicitud", nativeQuery = true)
+    List<Object[]> findAllActive();
 
-        @Modifying
-        @Query(value = "EXEC ActualizarDiasTranscurridos", nativeQuery = true)
-        void ActualizarDiasTranscurridos();
+    @Modifying
+    @Query(value = "EXEC ActualizarDiasTranscurridos", nativeQuery = true)
+    void ActualizarDiasTranscurridos();
 
-        @Modifying
-        @Query(value = "EXEC ActualizarDiasUnRegistro :folio, :idEstatus", nativeQuery = true)
-        void ActualizarDiasUnRegistro(@Param("folio") String folio, @Param("idEstatus") int idEstatus);
+    @Modifying
+    @Query(value = "EXEC ActualizarDiasUnRegistro :folio, :idEstatus", nativeQuery = true)
+    void ActualizarDiasUnRegistro(@Param("folio") String folio, @Param("idEstatus") int idEstatus);
 
-        @Modifying
-        @Query("UPDATE SolicitudGeneral c SET c.estatus.idEstatus = :idEstatus WHERE c.idSolicitud = :idSolicitud")
-        void cambiarEstatusSolicitud(@Param("idSolicitud") Long idSolicitud, @Param("idEstatus") Long idEstatus);
+    @Modifying
+    @Query("UPDATE SolicitudGeneral c SET c.estatus.idEstatus = :idEstatus WHERE c.idSolicitud = :idSolicitud")
+    void cambiarEstatusSolicitud(@Param("idSolicitud") Long idSolicitud, @Param("idEstatus") Long idEstatus);
 
-        @Modifying
-        @Query("UPDATE SolicitudGeneral c SET c.directorio.idDirectorio = :idDirectorio WHERE c.idSolicitud = :idSolicitud")
-        void redirigirSolicitud(@Param("idSolicitud") Long idSolicitud, @Param("idDirectorio") Long idDirectorio);
+    @Modifying
+    @Query("UPDATE SolicitudGeneral c SET c.directorio.idDirectorio = :idDirectorio WHERE c.idSolicitud = :idSolicitud")
+    void redirigirSolicitud(@Param("idSolicitud") Long idSolicitud, @Param("idDirectorio") Long idDirectorio);
 
-        // gestion solicitudes
-        @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva=1 AND CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin ORDER BY idEstatus ASC, folio DESC", nativeQuery = true)
-        List<Object[]> findAllActiveByRange(@Param("fecha_inicio") String fecha_inicio,
-                        @Param("fecha_fin") String fecha_fin);
+    // gestion solicitudes
+    @Query(value = "SELECT * FROM vista_solicitud WHERE solicitudActiva=1 AND CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin ORDER BY idEstatus ASC, folio DESC", nativeQuery = true)
+    List<Object[]> findAllActiveByRange(@Param("fecha_inicio") String fecha_inicio,
+            @Param("fecha_fin") String fecha_fin);
 
-        // REVISION SOLICITUDES
-        // usuario es revisor
-        @Query(value = """
+    // REVISION SOLICITUDES
+    // usuario es revisor
+    @Query(value = """
                             SELECT *
                             FROM vista_solicitud
                             WHERE solicitudActiva = 1
@@ -47,13 +47,13 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
                               AND CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
                             ORDER BY idEstatus ASC, folio DESC
                         """, nativeQuery = true)
-        List<Object[]> findAllActiveByRangeAndTramites(
-                        @Param("fecha_inicio") String fecha_inicio,
-                        @Param("fecha_fin") String fecha_fin,
-                        @Param("idsTramites") List<Integer> idsTramites);
+    List<Object[]> findAllActiveByRangeAndTramites(
+            @Param("fecha_inicio") String fecha_inicio,
+            @Param("fecha_fin") String fecha_fin,
+            @Param("idsTramites") List<Integer> idsTramites);
 
-        // usuario es supervisor de los revisores
-        @Query(value = """
+    // usuario es supervisor de los revisores
+    @Query(value = """
                             SELECT *
                             FROM vista_solicitud
                             WHERE solicitudActiva = 1
@@ -61,37 +61,80 @@ public interface SolicitudGeneralRepository extends JpaRepository<SolicitudGener
                               AND CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
                             ORDER BY idEstatus ASC, folio DESC
                         """, nativeQuery = true)
-        List<Object[]> findAllActiveByRangeAndArea(
-                        @Param("fecha_inicio") String fecha_inicio,
-                        @Param("fecha_fin") String fecha_fin,
-                        @Param("idArea") Long idArea);
+    List<Object[]> findAllActiveByRangeAndArea(
+            @Param("fecha_inicio") String fecha_inicio,
+            @Param("fecha_fin") String fecha_fin,
+            @Param("idArea") Long idArea);
 
-        @Query(value = "SELECT * FROM tbl_solicitudesGeneral WHERE folio IS NOT NULL ORDER BY folio DESC LIMIT 1", nativeQuery = true)
-        Optional<SolicitudGeneral> findFolioUltimaSolicitud();
+    //SUPERVISOR, VISTA ESTRUCTURAL:
+    @Query(value = """
+WITH AreasRecursivas AS (
 
-        @Query(value = "SELECT * FROM vista_solicitud " +
-                        "WHERE nombre LIKE %:nombre% " +
-                        "AND apellidoPaterno LIKE %:apellidoPaterno% " +
-                        "AND apellidoMaterno LIKE %:apellidoMaterno% " +
-                        "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) " +
-                        "ORDER BY folio", nativeQuery = true)
-        List<Object[]> findCoincidenciasSolicitud(@Param("nombre") String nombre,
-                        @Param("apellidoPaterno") String apellidoPaterno,
-                        @Param("apellidoMaterno") String apellidoMaterno);
+    -- Nodo inicial
+    SELECT
+        idArea,
+        nombre,
+        idInterno,
+        nivel
+    FROM tbl_catalogoAreas
+    WHERE idArea = :idArea
 
-        @Query(value = "SELECT * FROM vista_solicitud " +
-                        "WHERE (" +
-                        "   (:atributoBusqueda = 'folio' AND folio LIKE %:valorBusqueda%) OR " +
-                        "   (:atributoBusqueda = 'correo' AND correo LIKE %:valorBusqueda%) OR " +
-                        "   (:atributoBusqueda = 'telefonoFijo' AND telefonoFijo LIKE %:valorBusqueda%) OR " +
-                        "   (:atributoBusqueda = 'telefonoCelular' AND telefonoCelular LIKE %:valorBusqueda%) OR " +
-                        "   (:atributoBusqueda = 'nombreCompleto' AND CONCAT(nombre, ' ', apellidoPaterno, ' ', apellidoMaterno) LIKE %:valorBusqueda%)"
-                        +
-                        ") " +
-                        "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) " +
-                        "ORDER BY folio", nativeQuery = true)
-        List<Object[]> findCoincidenciasInicio(
-                        @Param("atributoBusqueda") String atributoBusqueda,
-                        @Param("valorBusqueda") String valorBusqueda);
+    UNION ALL
+
+    -- Hijas
+    SELECT
+        a.idArea,
+        a.nombre,
+        a.idInterno,
+        a.nivel
+    FROM tbl_catalogoAreas a
+    INNER JOIN AreasRecursivas ar
+        ON a.idInterno = ar.idArea
+    WHERE a.idArea <> ar.idArea
+)
+
+SELECT *
+FROM vista_solicitud
+WHERE solicitudActiva = 1
+  AND idAreaSolicitud IN (
+        SELECT DISTINCT idArea
+        FROM AreasRecursivas
+  )
+  AND CAST(fecha AS DATE)
+      BETWEEN :fecha_inicio AND :fecha_fin
+ORDER BY idEstatus ASC, folio DESC
+OPTION (MAXRECURSION 20)
+""", nativeQuery = true)
+    List<Object[]> findAllActiveByRangeAndAreaEstructura(
+            @Param("fecha_inicio") String fecha_inicio,
+            @Param("fecha_fin") String fecha_fin,
+            @Param("idArea") Long idArea);
+
+    @Query(value = "SELECT * FROM tbl_solicitudesGeneral WHERE folio IS NOT NULL ORDER BY folio DESC LIMIT 1", nativeQuery = true)
+    Optional<SolicitudGeneral> findFolioUltimaSolicitud();
+
+    @Query(value = "SELECT * FROM vista_solicitud "
+            + "WHERE nombre LIKE %:nombre% "
+            + "AND apellidoPaterno LIKE %:apellidoPaterno% "
+            + "AND apellidoMaterno LIKE %:apellidoMaterno% "
+            + "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) "
+            + "ORDER BY folio", nativeQuery = true)
+    List<Object[]> findCoincidenciasSolicitud(@Param("nombre") String nombre,
+            @Param("apellidoPaterno") String apellidoPaterno,
+            @Param("apellidoMaterno") String apellidoMaterno);
+
+    @Query(value = "SELECT * FROM vista_solicitud "
+            + "WHERE ("
+            + "   (:atributoBusqueda = 'folio' AND folio LIKE %:valorBusqueda%) OR "
+            + "   (:atributoBusqueda = 'correo' AND correo LIKE %:valorBusqueda%) OR "
+            + "   (:atributoBusqueda = 'telefonoFijo' AND telefonoFijo LIKE %:valorBusqueda%) OR "
+            + "   (:atributoBusqueda = 'telefonoCelular' AND telefonoCelular LIKE %:valorBusqueda%) OR "
+            + "   (:atributoBusqueda = 'nombreCompleto' AND CONCAT(nombre, ' ', apellidoPaterno, ' ', apellidoMaterno) LIKE %:valorBusqueda%)"
+            + ") "
+            + "AND CAST(fecha AS DATE) >= CAST(DATEADD(DAY, -60, GETDATE()) AS DATE) "
+            + "ORDER BY folio", nativeQuery = true)
+    List<Object[]> findCoincidenciasInicio(
+            @Param("atributoBusqueda") String atributoBusqueda,
+            @Param("valorBusqueda") String valorBusqueda);
 
 }

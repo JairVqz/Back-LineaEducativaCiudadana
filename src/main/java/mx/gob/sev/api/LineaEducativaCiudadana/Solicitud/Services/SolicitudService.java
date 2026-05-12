@@ -7,30 +7,34 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.Solicit
 import mx.gob.sev.api.LineaEducativaCiudadana.Solicitud.Models.Solicitud.VistaSolicitud;
 
 public interface SolicitudService {
-        List<SolicitudGeneral> findAll();
 
-        List<VistaSolicitud> findAllActive();
+    List<SolicitudGeneral> findAll();
 
-        List<VistaSolicitud> findAllActiveByRange(String fecha_inicio, String fecha_fin);
+    List<VistaSolicitud> findAllActive();
 
-        List<VistaSolicitud> findAllActiveByRangeAndTramites(String fecha_inicio, String fecha_fin,
-                        List<Integer> idsTramites);
+    List<VistaSolicitud> findAllActiveByRange(String fecha_inicio, String fecha_fin);
 
-        List<VistaSolicitud> findAllActiveByRangeAndArea(String fecha_inicio, String fecha_fin,
-                        Long idArea);
+    List<VistaSolicitud> findAllActiveByRangeAndTramites(String fecha_inicio, String fecha_fin,
+            List<Integer> idsTramites);
 
-        SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
+    List<VistaSolicitud> findAllActiveByRangeAndArea(String fecha_inicio, String fecha_fin,
+            Long idArea);
 
-        List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
+    List<VistaSolicitud> findAllActiveByRangeAndAreaEstructura(String fecha_inicio, String fecha_fin,
+            Long idArea);
 
-        List<VistaSolicitud> findCoincidenciasInicio(String atributoBusqueda, String valorBusqueda);
+    SolicitudGeneral guardarSolicitud(SolicitudDTO dto);
 
-        void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus);
+    List<VistaSolicitud> findCoincidenciasSolicitud(String nombre, String apellidoPaterno, String apellidoMaterno);
 
-        void redirigirSolicitud(Long idSolicitud, Long idDirectorio);
+    List<VistaSolicitud> findCoincidenciasInicio(String atributoBusqueda, String valorBusqueda);
 
-        String ActualizarDiasTranscurridos();
+    void cambiarEstatusSolicitud(Long idSolicitud, Long idEstatus);
 
-        String ActualizarDiasUnRegistro(String folio, int idEstatus);
+    void redirigirSolicitud(Long idSolicitud, Long idDirectorio);
+
+    String ActualizarDiasTranscurridos();
+
+    String ActualizarDiasUnRegistro(String folio, int idEstatus);
 
 }

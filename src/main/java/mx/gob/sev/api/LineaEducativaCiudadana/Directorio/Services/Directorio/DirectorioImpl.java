@@ -21,15 +21,17 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.CatalogoAr
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.CatalogoExtensionRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.CatalogoTramiteRepository;
 import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Repositories.DirectorioRepository;
-import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 
 @Service
 public class DirectorioImpl implements DirectorioService {
 
     @Autowired
     private DirectorioRepository relacionDirectorioRepository;
+    @Autowired
     private CatalogoAreaRepository areaRepository;
+    @Autowired
     private CatalogoExtensionRepository extensionRepository;
+    @Autowired
     private CatalogoTramiteRepository tramiteRepository;
 
     @Override
@@ -324,13 +326,28 @@ public class DirectorioImpl implements DirectorioService {
             throw new RuntimeException("Directorio no encontrado con el id: " + idDirectorio);
         }
     }
-    
+
     @Transactional
     public Directorio guardar(DirectorioDTO dto) {
 
+        // VALIDACIONES
+        if (dto.getIdTramite() == null
+                && (dto.getNuevoTramite() == null || dto.getNuevoTramite().isBlank())) {
+
+            throw new RuntimeException("Debe seleccionar o capturar un trámite");
+        }
+
+        if (dto.getIdExtension() == null
+                && (dto.getNuevaExtension() == null || dto.getNuevaExtension().isBlank())) {
+
+            throw new RuntimeException("Debe seleccionar o capturar una extensión");
+        }
+
+        // =========================
+        // TRÁMITE
+        // =========================
         CatalogoTramite tramite;
 
-        // ✅ EXISTE EL TRÁMITE
         if (dto.getIdTramite() != null) {
 
             tramite = tramiteRepository.findById(dto.getIdTramite())
@@ -338,7 +355,6 @@ public class DirectorioImpl implements DirectorioService {
 
         } else {
 
-            // ✅ ES NUEVO TRÁMITE
             tramite = tramiteRepository
                     .findByTramiteIgnoreCase(dto.getNuevoTramite())
                     .orElseGet(() -> {
@@ -352,12 +368,41 @@ public class DirectorioImpl implements DirectorioService {
                     });
         }
 
+        // =========================
+        // EXTENSIÓN
+        // =========================
+        CatalogoExtension extension;
+
+        if (dto.getIdExtension() != null) {
+
+            extension = extensionRepository.findById(dto.getIdExtension())
+                    .orElseThrow(() -> new RuntimeException("Extensión no encontrada"));
+
+        } else {
+
+            extension = extensionRepository
+                    .findByExtensionIgnoreCase(dto.getNuevaExtension())
+                    .orElseGet(() -> {
+
+                        CatalogoExtension nueva = new CatalogoExtension();
+
+                        nueva.setExtension(dto.getNuevaExtension());
+                        nueva.setResponsable(dto.getResponsable());
+                        nueva.setActivo(1);
+
+                        return extensionRepository.save(nueva);
+                    });
+        }
+
+        // =========================
+        // ÁREA
+        // =========================
         CatalogoArea area = areaRepository.findById(dto.getIdArea())
                 .orElseThrow(() -> new RuntimeException("Área no encontrada"));
 
-        CatalogoExtension extension = extensionRepository.findById(dto.getIdExtension())
-                .orElseThrow(() -> new RuntimeException("Extensión no encontrada"));
-
+        // =========================
+        // DIRECTORIO
+        // =========================
         Directorio directorio = new Directorio();
 
         directorio.setCatalogoArea(area);
@@ -370,7 +415,6 @@ public class DirectorioImpl implements DirectorioService {
 
         directorio.setActivo(1);
 
-        return this.relacionDirectorioRepository.save(directorio);
+        return relacionDirectorioRepository.save(directorio);
     }
-
 }

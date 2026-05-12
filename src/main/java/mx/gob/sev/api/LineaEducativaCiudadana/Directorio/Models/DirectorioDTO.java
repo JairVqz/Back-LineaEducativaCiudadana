@@ -3,16 +3,21 @@ package mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Models;
 import lombok.Data;
 
 @Data
-
 public class DirectorioDTO {
 
     private Long idArea;
+
+    // EXISTENTE
     private Long idExtension;
 
-    // Si existe trámite
+    // NUEVA
+    private String nuevaExtension;
+    private String responsable;
+
+    // EXISTENTE
     private Long idTramite;
 
-    // Si es nuevo trámite
+    // NUEVO
     private String nuevoTramite;
 
     private String descripcion;
