@@ -11,29 +11,21 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Usuario.Models.Usuario;
 public interface ReporteRepository extends JpaRepository<Usuario, Long> {
 
     @Query(value = """
-                            SELECT 
-    COUNT(*) AS llamadas_recibidas,
+    SELECT 
+        COUNT(*) AS llamadas_recibidas,
 
-    ISNULL((
-    SELECT TOP 1 horaInicio
+        ISNULL(MIN(horaInicio), CAST('00:00:00' AS TIME)) AS primera_llamada,
+
+        ISNULL(
+            SUM(TRY_CAST(duracionMinutos AS DECIMAL(10,2))),
+            0
+        ) AS total_duracion,
+
+        ISNULL(MAX(horaInicio), CAST('00:00:00' AS TIME)) AS ultima_llamada
+
     FROM vista_solicitud
     WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
-    ORDER BY fecha ASC, horaInicio ASC
-    ), CAST('00:00:00' AS TIME)) AS primera_llamada,
-
-    ISNULL(SUM(CAST(duracionMinutos AS INT)), 0) AS total_duracion,
-
-    ISNULL((
-        SELECT TOP 1 horaInicio
-        FROM vista_solicitud
-        WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
-        ORDER BY fecha DESC, horaInicio DESC
-    ), CAST('00:00:00' AS TIME)) AS ultima_llamada
-
-    FROM vista_solicitud
-    WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin;
-
-                        """, nativeQuery = true)
+""", nativeQuery = true)
     List<Object[]> findKpi(
             @Param("fecha_inicio") String fecha_inicio,
             @Param("fecha_fin") String fecha_fin);
@@ -100,31 +92,56 @@ public interface ReporteRepository extends JpaRepository<Usuario, Long> {
             @Param("fecha_fin") String fecha_fin);
 
     @Query(value = """
-    SELECT 
-        COUNT(*) AS llamadas_recibidas,
+WITH AreasRecursivas AS (
 
-        ISNULL((
-            SELECT TOP 1 horaInicio
-            FROM vista_solicitud
-            WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
-            AND idAreaSolicitud = :idArea
-            ORDER BY fecha ASC, horaInicio ASC
-        ), CAST('00:00:00' AS TIME)) AS primera_llamada,
+    SELECT
+        idArea,
+        nombre,
+        idInterno,
+        nivel
+    FROM tbl_catalogoAreas
+    WHERE idArea = :idArea
 
-        ISNULL(SUM(CAST(duracionMinutos AS INT)), 0) AS total_duracion,
+    UNION ALL
 
-        ISNULL((
-            SELECT TOP 1 horaInicio
-            FROM vista_solicitud
-            WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
-            AND idAreaSolicitud = :idArea
-            ORDER BY fecha DESC, horaInicio DESC
-        ), CAST('00:00:00' AS TIME)) AS ultima_llamada
+    SELECT
+        a.idArea,
+        a.nombre,
+        a.idInterno,
+        a.nivel
+    FROM tbl_catalogoAreas a
+    INNER JOIN AreasRecursivas ar
+        ON a.idInterno = ar.idArea
+    WHERE a.idArea <> ar.idArea
+)
 
-    FROM vista_solicitud
-    WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
-    AND idAreaSolicitud = :idArea
-    """, nativeQuery = true)
+SELECT 
+    COUNT(*) AS llamadas_recibidas,
+
+    ISNULL(
+        MIN(horaInicio),
+        CAST('00:00:00' AS TIME)
+    ) AS primera_llamada,
+
+    ISNULL(
+        SUM(TRY_CAST(duracionMinutos AS DECIMAL(10,2))),
+        0
+    ) AS total_duracion,
+
+    ISNULL(
+        MAX(horaInicio),
+        CAST('00:00:00' AS TIME)
+    ) AS ultima_llamada
+
+FROM vista_solicitud
+WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
+  AND idAreaSolicitud IN (
+        SELECT DISTINCT idArea
+        FROM AreasRecursivas
+  )
+
+OPTION (MAXRECURSION 20)
+""", nativeQuery = true)
     List<Object[]> findKpiSupervisor(
             @Param("fecha_inicio") String fecha_inicio,
             @Param("fecha_fin") String fecha_fin,
