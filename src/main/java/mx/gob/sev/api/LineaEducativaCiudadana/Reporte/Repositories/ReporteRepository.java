@@ -92,55 +92,21 @@ public interface ReporteRepository extends JpaRepository<Usuario, Long> {
             @Param("fecha_fin") String fecha_fin);
 
     @Query(value = """
-WITH AreasRecursivas AS (
-
-    SELECT
-        idArea,
-        nombre,
-        idInterno,
-        nivel
-    FROM tbl_catalogoAreas
-    WHERE idArea = :idArea
-
-    UNION ALL
-
-    SELECT
-        a.idArea,
-        a.nombre,
-        a.idInterno,
-        a.nivel
-    FROM tbl_catalogoAreas a
-    INNER JOIN AreasRecursivas ar
-        ON a.idInterno = ar.idArea
-    WHERE a.idArea <> ar.idArea
-)
-
 SELECT 
-    COUNT(*) AS llamadas_recibidas,
+        COUNT(*) AS llamadas_recibidas,
 
-    ISNULL(
-        MIN(horaInicio),
-        CAST('00:00:00' AS TIME)
-    ) AS primera_llamada,
+        ISNULL(MIN(horaInicio), CAST('00:00:00' AS TIME)) AS primera_llamada,
 
-    ISNULL(
-        SUM(TRY_CAST(duracionMinutos AS DECIMAL(10,2))),
-        0
-    ) AS total_duracion,
+        ISNULL(
+            SUM(TRY_CAST(duracionMinutos AS DECIMAL(10,2))),
+            0
+        ) AS total_duracion,
 
-    ISNULL(
-        MAX(horaInicio),
-        CAST('00:00:00' AS TIME)
-    ) AS ultima_llamada
+        ISNULL(MAX(horaInicio), CAST('00:00:00' AS TIME)) AS ultima_llamada
 
-FROM vista_solicitud
-WHERE CAST(fecha AS DATE) BETWEEN :fecha_inicio AND :fecha_fin
-  AND idAreaSolicitud IN (
-        SELECT DISTINCT idArea
-        FROM AreasRecursivas
-  )
-
-OPTION (MAXRECURSION 20)
+    FROM vista_solicitud
+    WHERE CAST(fecha AS DATE) BETWEEN  :fecha_inicio  AND :fecha_fin
+    AND idAreaSolicitud = :idArea
 """, nativeQuery = true)
     List<Object[]> findKpiSupervisor(
             @Param("fecha_inicio") String fecha_inicio,

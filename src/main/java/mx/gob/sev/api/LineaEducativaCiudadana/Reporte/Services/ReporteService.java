@@ -8,7 +8,7 @@ import mx.gob.sev.api.LineaEducativaCiudadana.Reporte.Models.TopAreasModel;
 
 public interface ReporteService {
 
-    byte[] generarReport(String reportName, String fechaInicio, String fechaFin) throws Exception;
+    byte[] generarReport(String reportName, String fechaInicio, String fechaFin, String tipo, String idArea, String area) throws Exception;
 
     List<KpiModel> findKpi(String fecha_inicio, String fecha_fin);
 

@@ -34,7 +34,7 @@ public class ReporteImpl implements ReporteService {
     private ReporteRepository reporteRepository;
 
     @Override
-    public byte[] generarReport(String reportName, String fechaInicio, String fechaFin) throws Exception {
+    public byte[] generarReport(String reportName, String fechaInicio, String fechaFin, String tipo, String idArea, String area) throws Exception {
 
         InputStream reportStream = this.getClass()
                 .getResourceAsStream("/Reportes/" + reportName + ".jasper");
@@ -53,6 +53,11 @@ public class ReporteImpl implements ReporteService {
 
         InputStream lec = getClass().getResourceAsStream("/Images/LEC.png");
         params.put("lec", lec);
+
+        if ("JERARQUIA".equals(tipo) || "AREA".equals(tipo)) {
+            params.put("idArea", idArea);
+            params.put("area", area);
+        }
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 reportStream,
@@ -126,7 +131,6 @@ public class ReporteImpl implements ReporteService {
         }
         return lista;
     }
-
 
     @Override
     public List<KpiModel> findKpiSupervisor(String fecha_inicio, String fecha_fin, Long idArea) {

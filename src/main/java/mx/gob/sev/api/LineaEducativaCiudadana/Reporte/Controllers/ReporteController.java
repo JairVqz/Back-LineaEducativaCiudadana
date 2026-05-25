@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import mx.gob.sev.api.LineaEducativaCiudadana.Directorio.Services.Estructura.CatalogoAreaImpl;
 import mx.gob.sev.api.LineaEducativaCiudadana.Reporte.Models.KpiModel;
 import mx.gob.sev.api.LineaEducativaCiudadana.Reporte.Models.LlamadasHoraModel;
 import mx.gob.sev.api.LineaEducativaCiudadana.Reporte.Models.TopAreasModel;
@@ -27,36 +28,92 @@ public class ReporteController {
 
     private ReporteImpl reportService;
 
-    public ReporteController(ReporteImpl reportService) {
+    private CatalogoAreaImpl catalogoAreaService;
+
+    public ReporteController(ReporteImpl reportService, CatalogoAreaImpl catalogoAreaService) {
         this.reportService = reportService;
+        this.catalogoAreaService = catalogoAreaService;
     }
 
     @GetMapping("/reportePeriodo")
     public ResponseEntity<byte[]> generarReporte(
             @RequestParam String fechaInicio,
-            @RequestParam String fechaFin
+            @RequestParam String fechaFin,
+            @RequestParam String tipo,
+            @RequestParam String idArea
     ) {
         try {
-            byte[] report = reportService.generarReport(
-                    "reportePeriodo",
-                    fechaInicio,
-                    fechaFin
-            );
+            String area = catalogoAreaService.findById(Long.valueOf(idArea)).getNombre();
+            if (tipo.equals("JERARQUIA")) {
+                byte[] report = reportService.generarReport(
+                        "reporteJerarquia",
+                        fechaInicio,
+                        fechaFin,
+                        tipo,
+                        idArea,
+                        area
+                );
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+                String fechaInicioFmt = LocalDate.parse(fechaInicio).format(formatter);
+                String fechaFinFmt = LocalDate.parse(fechaFin).format(formatter);
 
-            String fechaInicioFmt = LocalDate.parse(fechaInicio).format(formatter);
-            String fechaFinFmt = LocalDate.parse(fechaFin).format(formatter);
+                String fileName = "LEC_ReportePeriodo_"
+                        + fechaInicioFmt + "_"
+                        + fechaFinFmt + ".pdf";
 
-            String fileName = "LEC_ReportePeriodo_"
-                    + fechaInicioFmt + "_"
-                    + fechaFinFmt + ".pdf";
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.add("Content-Disposition", "inline; filename=" + fileName);
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.add("Content-Disposition", "inline; filename=" + fileName);
+                return new ResponseEntity<>(report, headers, HttpStatus.OK);
+            } else if (tipo.equals("AREA")) {
+                byte[] report = reportService.generarReport(
+                        "reporteArea",
+                        fechaInicio,
+                        fechaFin,
+                        tipo,
+                        idArea,
+                        area
+                );
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
 
-            return new ResponseEntity<>(report, headers, HttpStatus.OK);
+                String fechaInicioFmt = LocalDate.parse(fechaInicio).format(formatter);
+                String fechaFinFmt = LocalDate.parse(fechaFin).format(formatter);
+
+                String fileName = "LEC_ReportePeriodo_"
+                        + fechaInicioFmt + "_"
+                        + fechaFinFmt + ".pdf";
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.add("Content-Disposition", "inline; filename=" + fileName);
+
+                return new ResponseEntity<>(report, headers, HttpStatus.OK);
+            } else {
+                byte[] report = reportService.generarReport(
+                        "reportePeriodo",
+                        fechaInicio,
+                        fechaFin,
+                        tipo,
+                        idArea,
+                        area
+                );
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+
+                String fechaInicioFmt = LocalDate.parse(fechaInicio).format(formatter);
+                String fechaFinFmt = LocalDate.parse(fechaFin).format(formatter);
+
+                String fileName = "LEC_ReportePeriodo_"
+                        + fechaInicioFmt + "_"
+                        + fechaFinFmt + ".pdf";
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.add("Content-Disposition", "inline; filename=" + fileName);
+
+                return new ResponseEntity<>(report, headers, HttpStatus.OK);
+            }
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
